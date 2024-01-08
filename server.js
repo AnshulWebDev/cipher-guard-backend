@@ -1,9 +1,9 @@
 import express from "express";
-require("dotenv").config();
+import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import database from "./config/database";
-
+import { connectDB } from "./config/database.js";
+dotenv.config();
 const PORT = process.env.PORT || 7000;
 const app = express();
 app.listen(PORT, () => {
@@ -11,7 +11,7 @@ app.listen(PORT, () => {
 });
 app.use(express.json());
 app.use(cookieParser());
-database.connect();
+connectDB();
 app.use(
   cors({
     origin: "http://localhost:6000",
@@ -23,4 +23,4 @@ app.use(
 
 //middleware
 
-module.exports = app;
+export default app;
