@@ -5,7 +5,8 @@ import bcrypt from "bcrypt";
 import Response from "../../utils/Response.js";
 export const createNote = async (req, res) => {
   try {
-    const { name, note, favorite, vaultPin, lockNote } = req.body;
+    const { name, note, favorite, lockNote } = req.body;
+    const vaultPin = req.vaultPin;
     if (!name) {
       Response(res, false, "enter note name", 422);
       return;

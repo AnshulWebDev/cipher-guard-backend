@@ -1,11 +1,8 @@
-import { NextResponse } from "next/server";
-import { user as User } from "../../../../../model/user";
-import { connectDB } from "../../../../../utils/dbconnect";
-import { passwordvault } from "../../../../../model/passwordVault";
+import { user as User } from "../../models/user.js";
+import { passwordvault } from "../../models/passwordVault.js";
 import CryptoJS from "crypto-js";
 export const POST = async (req) => {
   try {
-    await connectDB();
     const { name, username, password, website, vaultPin } = await req.json();
     const token = await req.cookies.get("token")?.value;
     const user = await User.findOne({ token });

@@ -5,7 +5,8 @@ import CryptoJS from "crypto-js";
 import Response from "../../utils/Response.js";
 export const updateNote = async (req, res) => {
   try {
-    const { name, note, favorite, vaultPin } = req.body;
+    const { name, note, favorite } = req.body;
+    const vaultPin = req.vaultPin;
     const verifyToken = req.user;
     const id = req.params.id;
     const user = await User.findById(verifyToken.is);

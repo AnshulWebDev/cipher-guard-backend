@@ -1,7 +1,9 @@
 import { user as User } from "../../models/user.js";
 import bcrypt from "bcrypt";
 import Response from "../../utils/Response.js";
-
+import CryptoJS from "crypto-js";
+import dotenv from "dotenv";
+dotenv.config();
 export const vaultAuth = async (req, res) => {
   try {
     const { vaultPin } = await req.json();
@@ -17,7 +19,12 @@ export const vaultAuth = async (req, res) => {
       Response(res, false, "Vault pin is incorrect", 402);
       return;
     }
-    Response(res, true, "Successfull", 200);
+    const encrypt = await CryptoJS.AES.encrypt(
+      vaultPin,
+      process.env.SECUREPIN
+    ).toString();
+
+    Response(res, true, "vault unlock", 200, encrypt);
     return;
   } catch (error) {
     console.log(error.message);

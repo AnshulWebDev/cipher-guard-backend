@@ -15,7 +15,7 @@ router.delete("/deleteNote/:id", Auth, isAuthUser, deleteNote);
 router.put("/favoriteNote/:id", Auth, isAuthUser, favoriteNote);
 router.get("/getAllNote", Auth, isAuthUser, getAllNote);
 router.get("/getFavoriteNote", Auth, isAuthUser, getFavoriteNote);
-router.post("/getNote/:id", Auth, isAuthUser, getNote);
+router.get("/getNote/:id", Auth, isAuthUser, getNote);
 router.get("/searchNote", Auth, isAuthUser, searchNote);
 router.post("/updateNote", Auth, isAuthUser, updateNote);
 

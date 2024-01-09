@@ -33,7 +33,7 @@ export const auth = async (req, res, next) => {
     return;
   }
 };
-//auth
+//isAuthUser
 export const isAuthUser = async (req, res, next) => {
   try {
     //extract token
@@ -50,6 +50,31 @@ export const isAuthUser = async (req, res, next) => {
       res,
       false,
       "Something went wrong while validating the token",
+      401
+    );
+    return;
+  }
+};
+//verify Auth Pin
+export const verifyAuthPin = async (req, res, next) => {
+  try {
+    const vaultAuth = req.header("Authorization").replace("Bearer ", "");
+    if (!vaultAuth) {
+      Response(res, false, "Enter Vault Pin");
+      return;
+    }
+    const decode = CryptoJS.AES.decrypt(
+      vaultAuth,
+      process.env.SECUREPIN
+    ).toString(CryptoJS.enc.Utf8);
+    req.vaultPin = decode;
+    next();
+  } catch (error) {
+    console.log(error.message);
+    Response(
+      res,
+      false,
+      "Something went wrong while validating the VaultPin",
       401
     );
     return;

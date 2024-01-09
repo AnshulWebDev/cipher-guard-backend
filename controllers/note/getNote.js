@@ -4,7 +4,7 @@ import CryptoJS from "crypto-js";
 import Response from "../../utils/Response.js";
 export const getNote = async (req, res) => {
   try {
-    const { vaultPin } = req.body;
+    const vaultPin = req.vaultPin;
     const verifyToken = req.user;
     const id = req.params.id;
     const user = await User.findById(verifyToken.id).populate("secureNotes");
