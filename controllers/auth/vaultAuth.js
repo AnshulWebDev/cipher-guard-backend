@@ -1,46 +1,27 @@
-import { NextResponse } from "next/server";
-import { user as User } from "../../../../model/user";
-import { connectDB } from "../../../../utils/dbconnect";
+import { user as User } from "../../models/user.js";
 import bcrypt from "bcrypt";
+import Response from "../../utils/Response.js";
 
-export const POST = async (req) => {
+export const vaultAuth = async (req, res) => {
   try {
-    await connectDB();
     const { vaultPin } = await req.json();
-    const token = await req.cookies.get("token")?.value;
-    const user = await User.findOne({ token });
-    if (!user) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "session expire Login again",
-        },
-        { status: 404 }
-      );
-    } else if (!vaultPin || vaultPin.toString().length !== 6) {
-      return NextResponse.json(
-        { success: false, message: "Enter a 6-digit number vault pin" },
-        { status: 422 }
-      );
+    const verifyUser = req.user;
+    const user = await User.findById(verifyUser.id);
+    if (!vaultPin || vaultPin.toString().length !== 6) {
+      Response(res, false, "Enter a 6-digit number vault pin", 422);
+      return;
     } else if (!user.vaultPin) {
-      return NextResponse.json(
-        { success: false, message: "create 6 digit vault pin" },
-        { status: 422 }
-      );
+      Response(res, false, "create 6 digit vault pin", 422);
+      return;
     } else if (!(await bcrypt.compare(vaultPin, user.vaultPin))) {
-      return NextResponse.json(
-        { success: false, message: "Vault pin is incorrect" },
-        { status: 402 }
-      );
+      Response(res, false, "Vault pin is incorrect", 402);
+      return;
     }
-    return NextResponse.json(
-      { success: true, message: "Successfull" },
-      { status: 200 }
-    );
+    Response(res, true, "Successfull", 200);
+    return;
   } catch (error) {
-    return NextResponse.json(
-      { success: false, message: "Internal server error Try Again" },
-      { status: 500 }
-    );
+    console.log(error.message);
+    Response(res, false, "Internal server error Try Again", 500);
+    return;
   }
 };

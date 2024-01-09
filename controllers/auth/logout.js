@@ -1,20 +1,9 @@
-import { NextResponse } from "next/server";
-
-export const GET = async () => {
+import Response from "../../utils/Response.js";
+export const logout = async (req, res) => {
   try {
-    const response = NextResponse.json(
-      {
-        success: true,
-        messahe: "Logout successfully",
-      },
-      { status: 200 }
-    );
-    response.cookies.delete("token");
-    return response;
+    return res.clearCookie("token");
   } catch (error) {
-    return NextResponse.json(
-      { success: false, message: "Internal server error Try Again" },
-      { status: 500 }
-    );
+    Response(res, false, "Internal server error Try Again", 500);
+    return;
   }
 };

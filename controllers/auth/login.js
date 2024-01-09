@@ -1,40 +1,29 @@
-import { NextResponse } from "next/server";
-import { user } from "../../../../model/user";
-import { connectDB } from "../../../../utils/dbconnect";
+import { user } from "../../models/user.js";
 import validator from "validator";
 import bcrypt from "bcrypt";
 import Jwt from "jsonwebtoken";
-import { mailSender } from "../../../../utils/mailSender";
-
-export const POST = async (req) => {
+import { mailSender } from "../../utils/mailSender.js";
+import Response from "../../utils/Response.js";
+export const login = async (req, res) => {
   try {
-    await connectDB();
-    const { email, password } = await req.json();
-    const users = await user.findOne({ email: email }).select("+password");
+    const { email, password } = req.body;
+
     if (!validator.isEmail(email)) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Enter valid email id.",
-        },
-        { status: 422 }
-      );
-    } else if (!users) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "user not found. Please register first",
-        },
-        { status: 404 }
-      );
+      Response(res, false, "Enter valid email id.", 422);
+      return;
+    }
+    const users = await user.findOne({ email: email }).select("+password");
+    if (!users) {
+      Response(res, false, "user not found. Please register first", 404);
+      return;
     } else if (users.accountLock) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Your Accout is locked contact admin@devglimpse.com",
-        },
-        { status: 423 }
+      Response(
+        res,
+        false,
+        "Your Accout is locked contact admin@devglimpse.com",
+        423
       );
+      return;
     }
 
     const isPasswordMatch = await bcrypt.compare(password, users.password);
@@ -53,23 +42,23 @@ export const POST = async (req) => {
       ) {
         users.accountLock = true;
         await users.save();
-        return NextResponse.json(
-          {
-            success: false,
-            message: "Your Accout is locked contact admin@devglimpse.com",
-          },
-          { status: 423 }
+        Response(
+          res,
+          false,
+          "Your Accout is locked contact admin@devglimpse.com",
+          423
         );
+        return;
       } else if (users.wrongPasswdAttempt.lastAttemptTime) {
         users.wrongPasswdAttempt.attempts += 1;
         await users.save();
-        return NextResponse.json(
-          {
-            success: false,
-            message: `wrong password you left ${users.wrongPasswdAttempt.attempts} out of 4`,
-          },
-          { status: 401 }
+        Response(
+          res,
+          false,
+          `wrong password you left ${users.wrongPasswdAttempt.attempts} out of 4`,
+          401
         );
+        return;
       }
     } else {
       users.wrongPasswdAttempt.attempts *= 0;
@@ -166,39 +155,39 @@ export const POST = async (req) => {
 
         `
       );
-      const response = NextResponse.json(
-        { success: true, message: `Welcome back ${users.firstName}` },
-        { status: 200 }
-      );
       const payload = {
         email: users.email,
         id: users._id,
+        role: users.role,
       };
       const token = Jwt.sign(payload, process.env.JWT_SECRET, {
         expiresIn: "6h",
       });
       users.token = token;
       await users.save();
-      response.cookies.set({
-        name: "token",
-        value: token,
+      const options = {
         httpOnly: true,
-        path: "/",
-        maxAge: 11.5 * 60 * 60, // 6 hours expiry
-      });
-      return response;
+        expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
+      };
+      res
+        .cookie("token", token, options)
+        .status(200)
+        .json({
+          success: true,
+          message: `Welcome back ${users.firstName}`,
+          data: token,
+        });
+      return;
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     // if (error.message === "Unexpected end of JSON input") {
     //   return NextResponse.json(
     //     { success: false, message: "Data can't be empty" },
     //     { status: 406 }
     //   );
     // }
-    return NextResponse.json(
-      { success: false, message: "Internal server error Try Again" },
-      { status: 500 }
-    );
+    Response(res, false, "Internal server error Try Again", 500);
+    return;
   }
 };

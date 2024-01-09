@@ -4,6 +4,8 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import { connectDB } from "./config/database.js";
 import Auth from "./routes/auth.js";
+import Note from "./routes/note.js";
+
 dotenv.config();
 const PORT = process.env.PORT || 7000;
 const app = express();
@@ -22,6 +24,7 @@ app.use(
 
 //routes Import
 app.use("/api/auth", Auth);
+app.use("/api/note", Note);
 //middleware
 
 export default app;

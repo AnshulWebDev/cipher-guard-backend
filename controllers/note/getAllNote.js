@@ -1,30 +1,15 @@
-import { NextResponse } from "next/server";
-import { connectDB } from "../../../../../utils/dbconnect";
-import { user as User } from "../../../../../model/user";
+import { user as User } from "../../models/user.js";
+import Response from "../../utils/Response.js";
 
-export const GET = async (req) => {
+export const getAllNote = async (req, res) => {
   try {
-    await connectDB();
-    const token = await req.cookies.get("token")?.value;
-    const user = await User.findOne({ token }).populate("secureNotes");
-    if (!user) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "session expire Login again",
-        },
-        { status: 404 }
-      );
-    } 
-    return NextResponse.json(
-      { success: true, data: user.secureNotes },
-      { status: 200 }
-    );
+    const verifyToken = req.user;
+    const user = await User.findById(verifyToken.id).populate("secureNotes");
+    Response(res, true, null, 200, user.secureNotes);
+    return;
   } catch (error) {
     console.log(error.message);
-    return NextResponse.json(
-      { success: false, message: "Internal server error Try Again" },
-      { status: 500 }
-    );
+    Response(res, false, "Internal server error Try Again", 500);
+    return;
   }
 };

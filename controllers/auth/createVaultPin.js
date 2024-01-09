@@ -1,39 +1,27 @@
-import { NextResponse } from "next/server";
-import { connectDB } from "../../../../utils/dbconnect";
-import { user as User } from "../../../../model/user";
+import { user as User } from "../../models/user.js";
 import bcrypt from "bcrypt";
-export const POST = async (req) => {
+import Response from "../../utils/Response.js";
+export const createVaultPin = async (req, res) => {
   try {
-    await connectDB();
-    const { vaultPin } = await req.json();
-    const token = await req.cookies.get("token")?.value;
+    const { vaultPin } = req.body;
+    const verifyUser = req.user;
     if (vaultPin.toString().length !== 6) {
-      return NextResponse.json(
-        { success: false, message: "Enter a 6-digit number" },
-        { status: 422 }
-      );
+      Response(res, false, "Enter a 6-digit number", 422);
+      return;
     }
-    const user = await User.findOne({ token });
-    if (!user._id) {
-      return NextResponse.redirect("/login");
-    } else if (user.vaultPin) {
-      return NextResponse.json(
-        { success: true, message: "vault pin already created" },
-        { status: 422 }
-      );
+    const user = await User.findById(verifyUser.id);
+    if (user.vaultPin) {
+      Response(res, false, "vault pin already created", 422);
+      return;
     }
     const hashVaultPin = await bcrypt.hash(vaultPin, 12);
     user.vaultPin = hashVaultPin;
     await user.save();
-    return NextResponse.json(
-      { success: true, message: "pin created successfully" },
-      { status: 200 }
-    );
+    Response(res, true, "pin created successfully", 200);
+    return;
   } catch (error) {
     console.log(error.message);
-    return NextResponse.json(
-      { success: false, message: "Internal server error Try Again" },
-      { status: 500 }
-    );
+    Response(res, false, "Internal server error Try Again", 500);
+    return;
   }
 };

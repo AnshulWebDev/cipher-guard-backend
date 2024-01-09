@@ -5,13 +5,17 @@ import Response from "./../../../utils/Response.js";
 import Jwt from "jsonwebtoken";
 export const resendOtp = async (req, res) => {
   try {
-    const cookiesValue = req.cookies?.data.value;
+    const cookiesValue =
+      req.cookies.data.value ||
+      req.header("Authorization").replace("Bearer ", "");
     if (!cookiesValue) {
       Response(res, false, "Please register first", 422);
+      return;
     }
     const decode = Jwt.verify(cookiesValue, process.env.JWT_SECRET);
     if (!decode) {
       Response(res, false, "unable to verify", 401);
+      return;
     }
     //generate 8 digit otp
     const OTP = otpGenerator.generate(8, {
@@ -107,6 +111,7 @@ export const resendOtp = async (req, res) => {
       `
     );
     Response(res, true, "OTP send successfully", 200);
+    return;
   } catch (error) {
     console.log(error.message);
     // if (
@@ -119,5 +124,6 @@ export const resendOtp = async (req, res) => {
     //   );
     // }
     Response(res, false, "Internal server error Try Again", 500);
+    return;
   }
 };

@@ -1,56 +1,39 @@
-import { NextResponse } from "next/server";
-import { secureNotes } from "../../../../../../model/secureNotes";
-import { user as User } from "../../../../../../model/user";
-import { connectDB } from "../../../../../../utils/dbconnect";
+import { user as User } from "../../models/user.js";
 import bcrypt from "bcrypt";
 import CryptoJS from "crypto-js";
-export const POST = async (req, { params }) => {
+import Response from "../../utils/Response.js";
+export const getNote = async (req, res) => {
   try {
-    await connectDB();
-    const { vaultPin } = await req.json();
-    const token = await req.cookies.get("token")?.value;
-    const user = await User.findOne({ token });
-    if (!user) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "session expire Login again",
-        },
-        { status: 404 }
-      );
-    } else if (!vaultPin || vaultPin.toString().length !== 6) {
-      return NextResponse.json(
-        { success: false, message: "Enter a 6-digit number vault pin" },
-        { status: 422 }
-      );
+    const { vaultPin } = req.body;
+    const verifyToken = req.user;
+    const id = req.params.id;
+    const user = await User.findById(verifyToken.id).populate("secureNotes");
+
+    if (!vaultPin || vaultPin.toString().length !== 6) {
+      Response(res, false, "Enter a 6-digit number vault pin", 422);
+      return;
     }
-    const note = await secureNotes.findById(params.id);
-    if (!note) {
-      return NextResponse.json(
-        { success: false, message: "Note not found" },
-        { status: 404 }
-      );
+
+    const note = user.secureNotes.filter((value) => value._id == id);
+    if (!note[0]) {
+      Response(res, false, "Note not found", 404);
+      return;
+    } else if (!note[0].encrypt) {
+      Response(res, true, note[0].notes, 200);
+      return;
     } else if (!(await bcrypt.compare(vaultPin, user.vaultPin))) {
-      return NextResponse.json(
-        { success: false, message: "Vault pin is incorrect" },
-        { status: 402 }
-      );
+      Response(res, false, "Vault pin is incorrect", 402);
+      return;
     }
-    const decryptedNote = CryptoJS.AES.decrypt(note.notes, vaultPin).toString(
-      CryptoJS.enc.Utf8
-    );
-    return NextResponse.json(
-      {
-        success: true,
-        data: decryptedNote,
-      },
-      { status: 200 }
-    );
+    const decryptedNote = CryptoJS.AES.decrypt(
+      note[0].notes,
+      vaultPin
+    ).toString(CryptoJS.enc.Utf8);
+    Response(res, true, null, 200, decryptedNote);
+    return;
   } catch (error) {
     console.log(error.message);
-    return NextResponse.json(
-      { success: false, message: "Internal server error Try Again" },
-      { status: 500 }
-    );
+    Response(res, false, "Internal server error Try Again", 500);
+    return;
   }
 };

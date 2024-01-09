@@ -1,38 +1,26 @@
-import { NextResponse } from "next/server";
-import { user as User } from "../../../../../model/user";
+import { user as User } from "../../models/user.js";
+import Response from "../../utils/Response.js";
 
-export const GET = async (req) => {
+export const searchNote = async (req, res) => {
   try {
-    const token = await req.cookies.get("token")?.value;
-    const url = new URL(req.url);
-    const name = url.searchParams.get("name");
-    const user = await User.findOne({ token }).populate("secureNotes");
-    if (!user) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "session expire Login again",
-        },
-        { status: 404 }
-      );
-    }
+    const verifyToken = req.user;
+    const name = req.query.name;
+    const user = await User.findById(verifyToken.id).populate("secureNotes");
     const searchResult = user.secureNotes.filter((note) =>
       new RegExp(name, "i").test(note.name)
     );
     user.secureNotes;
-    return NextResponse.json(
-      {
-        success: true,
-        message: "Success",
-        data: searchResult.length > 0 ? searchResult : "No result found",
-      },
-      { status: 200 }
+    Response(
+      res,
+      true,
+      null,
+      200,
+      searchResult.length > 0 ? searchResult : "No result found"
     );
+    return;
   } catch (error) {
     console.log(error.message);
-    return NextResponse.json(
-      { success: false, message: "Internal server error Try Again" },
-      { status: 500 }
-    );
+    Response(res, false, "Internal server error Try Again", 500);
+    return;
   }
 };

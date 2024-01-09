@@ -1,45 +1,26 @@
-import { NextResponse } from "next/server";
-import { user as User } from "../../../../../../model/user";
-import { connectDB } from "../../../../../../utils/dbconnect";
-import { secureNotes } from "../../../../../../model/secureNotes";
-export const PUT = async (req, { params }) => {
+import { secureNotes } from "../../models/secureNotes.js";
+import Response from "../../utils/Response.js";
+export const favoriteNote = async (req, res) => {
   try {
-    await connectDB();
-    const { favorite } = await req.json();
-    const token = await req.cookies.get("token")?.value;
-    const user = await User.findOne({ token });
-    if (!user) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "session expire Login again",
-        },
-        { status: 404 }
-      );
-    }
+    const { favorite } = req.body;
+    const id = req.params.id;
     const updateNotes = {};
     if (favorite === true || favorite === false) {
       updateNotes.favorite = favorite;
     }
     try {
-      await secureNotes.findByIdAndUpdate(params.id, updateNotes, {
+      await secureNotes.findByIdAndUpdate(id, updateNotes, {
         new: true,
       });
-      return NextResponse.json(
-        { success: true, message: "Note updated successfully" },
-        { status: 200 }
-      );
+      Response(res, false, "Note updated successfully", 404);
+      return;
     } catch (error) {
-      return NextResponse.json(
-        { success: false, message: "Note not found" },
-        { status: 404 }
-      );
+      Response(res, false, "Note not found", 404);
+      return;
     }
   } catch (error) {
     console.log(error.message);
-    return NextResponse.json(
-      { success: false, message: "Internal server error Try Again" },
-      { status: 500 }
-    );
+    Response(res, false, "Internal server error Try Again", 500);
+    return;
   }
 };

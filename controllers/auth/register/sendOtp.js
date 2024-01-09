@@ -163,6 +163,7 @@ export const sendOtp = async (req, res) => {
     return res.cookie("data", data, options).status(200).json({
       success: true,
       message: "otp send successfully",
+      data: data,
     });
   } catch (error) {
     console.log(error.message);

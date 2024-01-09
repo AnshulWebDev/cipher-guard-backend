@@ -1,47 +1,31 @@
-import { NextResponse } from "next/server";
-import { user as User } from "../../../../../../model/user";
-import { connectDB } from "../../../../../../utils/dbconnect";
-import { secureNotes } from "../../../../../../model/secureNotes";
-export const DELETE = async (req, { params }) => {
+import { user as User } from "../../models/user.js";
+import { secureNotes } from "../../models/secureNotes.js";
+import Response from "../../utils/Response.js";
+export const deleteNote = async (req, res) => {
   try {
-    await connectDB();
-    const token = await req.cookies.get("token")?.value;
-    const user = await User.findOne({ token }).populate("secureNotes");
-    if (!user) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "session expire Login again",
-        },
-        { status: 404 }
-      );
-    }
+    const verifyUser = req.user;
+    const notesId = req.params.id;
+    const user = await User.findById(verifyUser.id).populate("secureNotes");
+
     try {
-      await secureNotes.findByIdAndDelete(params.id);
+      await secureNotes.findByIdAndDelete(notesId);
       await User.updateOne(
-        { _id: user._id },
+        { _id: verifyUser.id },
         {
-          $pull: { secureNotes: params.id },
+          $pull: { secureNotes: notesId },
         },
         { new: true }
       );
-
-      return NextResponse.json(
-        { success: true, message: "note delete successfully" },
-        { status: 200 }
-      );
+      Response(res, true, "note delete successfully", 200);
+      return;
     } catch (error) {
-      console.log(error);
-      return NextResponse.json(
-        { success: false, message: "Unable to delete item" },
-        { status: 200 }
-      );
+      console.log(error.message);
+      Response(res, false, "Unable to delete item", 200);
+      return;
     }
   } catch (error) {
     console.log(error.message);
-    return NextResponse.json(
-      { success: false, message: "Internal server error Try Again" },
-      { status: 500 }
-    );
+    Response(res, false, "Internal server error Try Again", 500);
+    return;
   }
 };

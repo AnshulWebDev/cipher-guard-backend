@@ -27,9 +27,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     trim: true,
   },
-  token: {
-    type: String,
-  },
   wrongPasswdAttempt: {
     attempts: {
       type: Number,

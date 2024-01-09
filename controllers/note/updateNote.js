@@ -1,33 +1,20 @@
-import { NextResponse } from "next/server";
-import { user as User } from "../../../../../../model/user";
-import { connectDB } from "../../../../../../utils/dbconnect";
+import { user as User } from "../../models/user.js";
 import bcrypt from "bcrypt";
-import { secureNotes } from "../../../../../../model/secureNotes";
+import { secureNotes } from "../../models/secureNotes.js";
 import CryptoJS from "crypto-js";
-export const PUT = async (req, { params }) => {
+import Response from "../../utils/Response.js";
+export const updateNote = async (req, res) => {
   try {
-    await connectDB();
-    const { name, note, favorite, vaultPin } = await req.json();
-    const token = await req.cookies.get("token")?.value;
-    const user = await User.findOne({ token });
-    if (!user) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "session expire Login again",
-        },
-        { status: 404 }
-      );
-    } else if (!vaultPin || vaultPin.toString().length !== 6) {
-      return NextResponse.json(
-        { success: false, message: "Enter a 6-digit number vault pin" },
-        { status: 422 }
-      );
+    const { name, note, favorite, vaultPin } = req.body;
+    const verifyToken = req.user;
+    const id = req.params.id;
+    const user = await User.findById(verifyToken.is);
+    if (!vaultPin || vaultPin.toString().length !== 6) {
+      Response(res, false, "Enter a 6-digit number vault pin", 422);
+      return;
     } else if (!(await bcrypt.compare(vaultPin, user.vaultPin))) {
-      return NextResponse.json(
-        { success: false, message: "Vault pin is incorrect" },
-        { status: 402 }
-      );
+      Response(res, false, "Vault pin is incorrect", 402);
+      return;
     }
     const updateNotes = {};
     if (name) {
@@ -37,24 +24,18 @@ export const PUT = async (req, { params }) => {
       updateNotes.notes = await CryptoJS.AES.encrypt(note, vaultPin).toString();
     }
     try {
-      await secureNotes.findByIdAndUpdate(params.id, updateNotes, {
+      await secureNotes.findByIdAndUpdate(id, updateNotes, {
         new: true,
       });
-      return NextResponse.json(
-        { success: true, message: "Note updated successfully" },
-        { status: 200 }
-      );
+      Response(res, true, "Note updated successfully", 200);
+      return;
     } catch (error) {
-      return NextResponse.json(
-        { success: false, message: "Note not found" },
-        { status: 404 }
-      );
+      Response(res, false, "Note not found", 404);
+      return;
     }
   } catch (error) {
     console.log(error.message);
-    return NextResponse.json(
-      { success: false, message: "Internal server error Try Again" },
-      { status: 500 }
-    );
+    Response(res, false, "Internal server error Try Again", 500);
+    return;
   }
 };

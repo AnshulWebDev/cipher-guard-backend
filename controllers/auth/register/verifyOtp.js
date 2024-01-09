@@ -7,13 +7,17 @@ import Response from "../../../utils/Response.js";
 export const verifyOtp = async (req, res) => {
   try {
     const { otp } = req.body;
-    const cookiesValue = req.cookies?.data.value;
+    const cookiesValue =
+      req.cookies.data.value ||
+      req.header("Authorization").replace("Bearer ", "");
     if (!cookiesValue) {
       Response(res, false, "Please register first", 422);
+      return;
     }
     const decode = Jwt.verify(cookiesValue, process.env.JWT_SECRET);
     if (!decode) {
       Response(res, false, "unable to verify", 401);
+      return;
     }
 
     // console.log(decode);
@@ -23,9 +27,11 @@ export const verifyOtp = async (req, res) => {
 
     if (!recentOtp) {
       Response(res, false, "OTP not found. Try to resend otp", 400);
+      return;
     }
     if (otp !== recentOtp.otp) {
       Response(res, false, "Invalid otp", 422);
+      return;
     }
     await user.create({
       firstName: decode.firstName,
@@ -140,5 +146,6 @@ export const verifyOtp = async (req, res) => {
   } catch (error) {
     console.log(error.message);
     Response(res, false, "Internal server error Try Again", 500);
+    return;
   }
 };
