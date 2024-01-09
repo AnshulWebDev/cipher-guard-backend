@@ -6,5 +6,4 @@ const uniquepasswdSchema = new mongoose.Schema({
     unique: true,
   },
 });
-mongoose.models = {};
 export const uniquepasswd = mongoose.model("uniquepasswd", uniquepasswdSchema);

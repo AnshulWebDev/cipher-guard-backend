@@ -35,5 +35,4 @@ const passwordVault = new mongoose.Schema({
     trim: true,
   },
 });
-mongoose.models = {};
 export const passwordvault = mongoose.model("passwordVault", passwordVault);

@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { connectDB } from "./config/database.js";
+import Auth from "./routes/auth.js";
 dotenv.config();
 const PORT = process.env.PORT || 7000;
 const app = express();
@@ -14,13 +15,13 @@ app.use(cookieParser());
 connectDB();
 app.use(
   cors({
-    origin: "http://localhost:6000",
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
 
 //routes Import
-
+app.use("/api/auth", Auth);
 //middleware
 
 export default app;

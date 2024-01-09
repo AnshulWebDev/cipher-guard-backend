@@ -15,5 +15,4 @@ const otpSchema = new mongoose.Schema({
     expires: 15 * 60,
   },
 });
-mongoose.models = {};
 export const otp = mongoose.model("otp", otpSchema);
