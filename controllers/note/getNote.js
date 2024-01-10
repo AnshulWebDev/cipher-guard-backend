@@ -13,22 +13,25 @@ export const getNote = async (req, res) => {
       Response(res, false, "Enter a 6-digit number vault pin", 422);
       return;
     }
-
     const note = user.secureNotes.filter((value) => value._id == id);
     if (!note[0]) {
       Response(res, false, "Note not found", 404);
       return;
     } else if (!note[0].encrypt) {
-      Response(res, true, note[0].notes, 200);
+      Response(res, true, null, 200, note[0].notes);
       return;
     } else if (!(await bcrypt.compare(vaultPin, user.vaultPin))) {
       Response(res, false, "Vault pin is incorrect", 402);
       return;
     }
+    console.log(note[0].notes);
     const decryptedNote = CryptoJS.AES.decrypt(
       note[0].notes,
       vaultPin
     ).toString(CryptoJS.enc.Utf8);
+    const fullNote={
+      
+    }
     Response(res, true, null, 200, decryptedNote);
     return;
   } catch (error) {

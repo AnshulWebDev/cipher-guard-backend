@@ -7,16 +7,22 @@ import { getFavoriteNote } from "../controllers/note/getFavoriteNote.js";
 import { getNote } from "../controllers/note/getNote.js";
 import { searchNote } from "../controllers/note/searchNote.js";
 import { updateNote } from "../controllers/note/updateNote.js";
-import { auth as Auth, isAuthUser } from "../middleware/auth.js";
+import { auth as Auth, isAuthUser, verifyAuthPin } from "../middleware/auth.js";
 const router = express.Router();
 
-router.post("/createNote", Auth, isAuthUser, createNote);
-router.delete("/deleteNote/:id", Auth, isAuthUser, deleteNote);
-router.put("/favoriteNote/:id", Auth, isAuthUser, favoriteNote);
-router.get("/getAllNote", Auth, isAuthUser, getAllNote);
-router.get("/getFavoriteNote", Auth, isAuthUser, getFavoriteNote);
-router.get("/getNote/:id", Auth, isAuthUser, getNote);
-router.get("/searchNote", Auth, isAuthUser, searchNote);
-router.post("/updateNote", Auth, isAuthUser, updateNote);
+router.post("/createNote", Auth, isAuthUser, verifyAuthPin, createNote);
+router.delete("/deleteNote/:id", Auth, isAuthUser, verifyAuthPin, deleteNote);
+router.put("/favoriteNote/:id", Auth, isAuthUser, verifyAuthPin, favoriteNote);
+router.get("/getAllNote", Auth, isAuthUser, verifyAuthPin, getAllNote);
+router.get(
+  "/getFavoriteNote",
+  Auth,
+  isAuthUser,
+  verifyAuthPin,
+  getFavoriteNote
+);
+router.get("/getNote/:id", Auth, isAuthUser, verifyAuthPin, getNote);
+router.get("/searchNote", Auth, isAuthUser, verifyAuthPin, searchNote);
+router.put("/updateNote/:id", Auth, isAuthUser, verifyAuthPin, updateNote);
 
 export default router;

@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import Response from "../utils/Response.js";
 dotenv.config();
+import CryptoJS from "crypto-js";
 //auth
 export const auth = async (req, res, next) => {
   try {
@@ -59,10 +60,6 @@ export const isAuthUser = async (req, res, next) => {
 export const verifyAuthPin = async (req, res, next) => {
   try {
     const vaultAuth = req.header("Authorization").replace("Bearer ", "");
-    if (!vaultAuth) {
-      Response(res, false, "Enter Vault Pin");
-      return;
-    }
     const decode = CryptoJS.AES.decrypt(
       vaultAuth,
       process.env.SECUREPIN
@@ -71,12 +68,7 @@ export const verifyAuthPin = async (req, res, next) => {
     next();
   } catch (error) {
     console.log(error.message);
-    Response(
-      res,
-      false,
-      "Something went wrong while validating the VaultPin",
-      401
-    );
+    Response(res, false, "Enter Vault Pin", 401);
     return;
   }
 };

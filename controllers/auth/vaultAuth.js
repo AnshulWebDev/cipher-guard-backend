@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 dotenv.config();
 export const vaultAuth = async (req, res) => {
   try {
-    const { vaultPin } = await req.json();
+    const { vaultPin } = req.body;
     const verifyUser = req.user;
     const user = await User.findById(verifyUser.id);
     if (!vaultPin || vaultPin.toString().length !== 6) {
