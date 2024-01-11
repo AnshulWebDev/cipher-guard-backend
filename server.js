@@ -7,10 +7,11 @@ import Auth from "./routes/auth.js";
 import Note from "./routes/note.js";
 import passwdVault from "./routes/passwordVault.js";
 import features from "./routes/features.js";
-
+import NodeCache from "node-cache";
 dotenv.config();
 const PORT = process.env.PORT || 7000;
 const app = express();
+export const nodeCache = new NodeCache();
 app.listen(PORT, () => {
   console.log(`App is running at ${PORT}`);
 });

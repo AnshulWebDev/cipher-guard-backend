@@ -13,10 +13,15 @@ export const updateNote = async (req, res) => {
     if (note) {
       updateNotes.notes = await CryptoJS.AES.encrypt(note, vaultPin).toString();
     }
+    if (favorite) {
+      updateNotes.favorite = favorite;
+    }
     try {
       await secureNotes.findByIdAndUpdate(id, updateNotes, {
         new: true,
       });
+      nodeCache.del("getAllNote");
+      nodeCache.del("favoriteNotes");
       Response(res, true, "Note updated successfully", 200);
       return;
     } catch (error) {

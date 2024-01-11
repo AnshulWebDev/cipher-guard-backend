@@ -3,6 +3,7 @@ import { secureNotes } from "../../models/secureNotes.js";
 import CryptoJS from "crypto-js";
 import bcrypt from "bcrypt";
 import Response from "../../utils/Response.js";
+import { nodeCache } from "./../../server.js";
 export const createNote = async (req, res) => {
   try {
     const { name, note, favorite, lockNote } = req.body;
@@ -32,22 +33,16 @@ export const createNote = async (req, res) => {
       );
     };
     if (lockNote === true) {
-      if (!vaultPin || vaultPin.toString().length !== 6) {
-        Response(res, false, "Enter a 6-digit number vault pin", 422);
-        return;
-      } else if (!user.vaultPin) {
-        Response(res, false, "create 6 digit vault pin", 422);
-        return;
-      } else if (!(await bcrypt.compare(vaultPin, user.vaultPin))) {
-        Response(res, false, "Vault pin is incorrect", 401);
-        return;
-      }
       const encryptNote = await CryptoJS.AES.encrypt(note, vaultPin).toString();
       await createNote(name, encryptNote, true);
+      nodeCache.del("getAllNote");
+      nodeCache.del("favoriteNotes");
       Response(res, true, "Note added successfully", 200);
       return;
     } else {
       await createNote(name, note, false);
+      nodeCache.del("getAllNote");
+      nodeCache.del("favoriteNotes");
       Response(res, true, "Note added successfully", 200);
       return;
     }

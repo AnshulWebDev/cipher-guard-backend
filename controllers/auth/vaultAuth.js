@@ -22,7 +22,7 @@ export const vaultAuth = async (req, res) => {
     const encrypt = await CryptoJS.AES.encrypt(
       vaultPin,
       process.env.SECUREPIN
-    ).toString();
+    ).toString(); 
 
     Response(res, true, "vault unlock", 200, encrypt);
     return;

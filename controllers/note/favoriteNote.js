@@ -1,5 +1,6 @@
 import { secureNotes } from "../../models/secureNotes.js";
 import Response from "../../utils/Response.js";
+import { nodeCache } from "./../../server.js";
 export const favoriteNote = async (req, res) => {
   try {
     const { favorite } = req.body;
@@ -12,7 +13,9 @@ export const favoriteNote = async (req, res) => {
       await secureNotes.findByIdAndUpdate(id, updateNotes, {
         new: true,
       });
-      Response(res, false, "Note updated successfully", 404);
+      Response(res, true, "Note updated successfully", 200);
+      nodeCache.del("getAllNote");
+      nodeCache.del("favoriteNotes");
       return;
     } catch (error) {
       Response(res, false, "Note not found", 404);
