@@ -1,6 +1,5 @@
-import { NextResponse } from "next/server";
-import { uniquepasswd } from "../../../../../model/uniquepasswd";
-import { connectDB } from "../../../../../utils/dbconnect";
+import { uniquepasswd } from "../../models/uniquepasswd.js";
+import Response from "../../utils/Response.js";
 
 const uniquePassWdGenerator = (options, length) => {
   let result = "";
@@ -33,47 +32,26 @@ const uniquePassWdGenerator = (options, length) => {
   return result;
 };
 
-export const POST = async (req) => {
+export const generatePasswd = async (req, res) => {
   try {
-    await connectDB();
-    const { capital, small, special, number, length } = await req.json();
+    const { capital, small, special, number, length } = req.body;
     if (!capital && !small && !special && !number) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Choose at least one option",
-        },
-        { status: 422 }
-      );
+      Response(res, false, "Choose at least one option", 422);
+      return;
     } else if (typeof length !== "number") {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Choose a valid password length",
-        },
-        { status: 422 }
-      );
+      Response(res, false, "Choose a valid password length", 422);
+      return;
     } else if (
       capital !== "capital" &&
       small !== "small" &&
       special !== "special" &&
       number !== "number"
     ) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Choose a correct password type",
-        },
-        { status: 422 }
-      );
+      Response(res, false, "Choose a correct password type", 422);
+      return;
     } else if (length < 5 || length > 128) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Length should be between 5 to 128",
-        },
-        { status: 422 }
-      );
+      Response(res, false, "Length should be between 5 to 128", 422);
+      return;
     }
 
     const passwdDB = await uniquepasswd.find();
@@ -90,18 +68,11 @@ export const POST = async (req) => {
     });
 
     await newUniquePasswordEntry.save();
-    return NextResponse.json(
-      {
-        success: true,
-        message: "password generated",
-        data: generatedPassword,
-      },
-      { status: 200 }
-    );
+    Response(res, true, "password generated", 200, generatedPassword);
+    return;
   } catch (error) {
-    return NextResponse.json(
-      { success: false, message: "Internal server error Try Again" },
-      { status: 500 }
-    );
+    console.log(error.message);
+    Response(res, false, "Internal server error Try Again", 500);
+    return;
   }
 };

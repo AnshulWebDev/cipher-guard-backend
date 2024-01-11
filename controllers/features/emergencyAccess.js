@@ -1,23 +1,63 @@
-import { user } from "../../models/user.js";
+import Response from "../../utils/Response.js";
+import { user as User } from "../../models/user.js";
 import validator from "validator";
 import bcrypt from "bcrypt";
-import Jwt from "jsonwebtoken";
 import { mailSender } from "../../utils/mailSender.js";
-import Response from "../../utils/Response.js";
-export const login = async (req, res) => {
+import Jwt from "jsonwebtoken";
+
+export const addEmergencyAccess = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    if (!email || !password) {
-      Response(res, false, "Enter all fields", 422);
-      return;
-    }
+    const verifyToken = req.user;
+    const { email, confirmPassword, password } = req.body;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,})/;
     if (!validator.isEmail(email)) {
       Response(res, false, "Enter valid email id.", 422);
       return;
+    } else if (confirmPassword.length < 8) {
+      Response(res, false, "Password is too short. minimum length is 8.", 422);
+      return;
+    } else if (!passwordRegex.test(password)) {
+      Response(
+        res,
+        false,
+        "Password must contain at least one lowercase letter, one uppercase letter, and one special symbol.",
+        422
+      );
     }
-    const users = await user.findOne({ email: email }).select("+password");
+    const hashPassword = await bcrypt.hash(password, 10);
+    try {
+      await User.findByIdAndUpdate(
+        verifyToken.id,
+        { emergencyAccess: email, emergencyAccessPasswd: hashPassword },
+        { new: true }
+      );
+      Response(res, true, "Emergency Access added successfully", 200);
+      return;
+    } catch (error) {
+      Response(res, false, "Emergency Email is already registered", 422);
+      return;
+    }
+  } catch (error) {
+    console.log(error.message);
+    Response(res, false, "Internal server error Try Again", 500);
+    return;
+  }
+};
+
+export const emergencyLogin = async (req, res) => {
+  try {
+    const { emergencyMail, password } = req.body;
+    if (!emergencyMail || !password) {
+      Response(res, false, "Enter all fields", 422);
+      return;
+    }
+    if (!validator.isEmail(emergencyMail)) {
+      Response(res, false, "Enter valid email id.", 422);
+      return;
+    }
+    const users = await User.findOne({ emergencyAccess: emergencyMail });
     if (!users) {
-      Response(res, false, "user not found. Please register first", 404);
+      Response(res, false, "Emergency email not found.", 404);
       return;
     } else if (users.accountLock) {
       Response(
@@ -28,8 +68,10 @@ export const login = async (req, res) => {
       );
       return;
     }
-    // Todo emergency access
-    let isPasswordMatch = await bcrypt.compare(password, users.password);
+    const isPasswordMatch = await bcrypt.compare(
+      password,
+      users.emergencyAccessPasswd
+    );
 
     if (!isPasswordMatch) {
       // Check if lastAttemptTime is older than the current time
@@ -185,12 +227,6 @@ export const login = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
-    // if (error.message === "Unexpected end of JSON input") {
-    //   return NextResponse.json(
-    //     { success: false, message: "Data can't be empty" },
-    //     { status: 406 }
-    //   );
-    // }
     Response(res, false, "Internal server error Try Again", 500);
     return;
   }

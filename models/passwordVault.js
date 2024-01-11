@@ -33,6 +33,7 @@ const passwordVault = new mongoose.Schema({
   passwordHistory: {
     type: Number,
     trim: true,
+    default: 0,
   },
 });
 export const passwordvault = mongoose.model("passwordVault", passwordVault);

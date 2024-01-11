@@ -63,6 +63,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "user",
   },
+  emergencyMail: {
+    type: String,
+    trim: true,
+    unique: true,
+  },
+  emergencyAccessPasswd: {
+    type: String,
+  },
 });
 
 // mongoose.models = {};

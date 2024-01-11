@@ -5,8 +5,6 @@ export const deleteNote = async (req, res) => {
   try {
     const verifyUser = req.user;
     const notesId = req.params.id;
-    const user = await User.findById(verifyUser.id).populate("secureNotes");
-
     try {
       await secureNotes.findByIdAndDelete(notesId);
       await User.updateOne(
@@ -20,7 +18,7 @@ export const deleteNote = async (req, res) => {
       return;
     } catch (error) {
       console.log(error.message);
-      Response(res, false, "Unable to delete item", 200);
+      Response(res, false, "Unable to delete item", 404 );
       return;
     }
   } catch (error) {

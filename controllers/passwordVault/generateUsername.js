@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
-import { usernames } from "./username";
+import Response from "../../utils/Response.js";
+import { usernames } from "../../utils/username.js";
 function generateRandomUsernameWithNumber() {
   const randomIndex = Math.floor(Math.random() * usernames.length);
   const selectedUsername = usernames[randomIndex];
@@ -7,18 +7,14 @@ function generateRandomUsernameWithNumber() {
 
   return `${selectedUsername}${randomNumber}`;
 }
-export const GET = async () => {
+export const generateUsername = async (req, res) => {
   try {
     // Example: Generate 10 random usernames with numbers
     const randomGeneratedUsernames = generateRandomUsernameWithNumber();
-    return NextResponse.json(
-      { success: true, message: "username generated", data: randomGeneratedUsernames },
-      { status: 200 }
-    );
+    Response(res, true, "username generated", 200, randomGeneratedUsernames);
+    return;
   } catch (error) {
-    return NextResponse.json(
-      { success: false, message: "Internal server error Try Again" },
-      { status: 500 }
-    );
+    Response(res, false, "Internal server error Try Again", 500);
+    return;
   }
 };

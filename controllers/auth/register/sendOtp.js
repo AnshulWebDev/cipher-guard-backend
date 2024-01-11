@@ -40,14 +40,6 @@ export const sendOtp = async (req, res) => {
       Response(res, false, "Enter valid email id.", 422);
       return;
     }
-
-    //check if user is already registered or not
-    const finduser = await user.findOne({ email: email });
-    if (finduser) {
-      Response(res, false, "Email is already registered", 422);
-      return;
-    }
-
     //add hashing to input password
     const hashPassword = await bcrypt.hash(password, 10);
 

@@ -1,5 +1,3 @@
-import { user as User } from "../../models/user.js";
-import bcrypt from "bcrypt";
 import { secureNotes } from "../../models/secureNotes.js";
 import CryptoJS from "crypto-js";
 import Response from "../../utils/Response.js";
@@ -7,16 +5,7 @@ export const updateNote = async (req, res) => {
   try {
     const { name, note, favorite } = req.body;
     const vaultPin = req.vaultPin;
-    const verifyToken = req.user;
     const id = req.params.id;
-    const user = await User.findById(verifyToken.is);
-    if (!vaultPin || vaultPin.toString().length !== 6) {
-      Response(res, false, "Enter a 6-digit number vault pin", 422);
-      return;
-    } else if (!(await bcrypt.compare(vaultPin, user.vaultPin))) {
-      Response(res, false, "Vault pin is incorrect", 402);
-      return;
-    }
     const updateNotes = {};
     if (name) {
       updateNotes.name = name;
