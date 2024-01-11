@@ -1,4 +1,5 @@
 import { passwordvault } from "../../models/passwordVault.js";
+import { nodeCache } from "../../server.js";
 import Response from "../../utils/Response.js";
 
 export const updateSavedPasswd = async (req, res) => {
@@ -40,6 +41,7 @@ export const updateSavedPasswd = async (req, res) => {
       );
       updatePassword.passwordHistory += 1;
       await updatePassword.save();
+      nodeCache.del("getSavedPasswd");
       Response(res, true, "Password Updated", 200);
       return;
     } catch (error) {

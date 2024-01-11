@@ -2,6 +2,7 @@ import { user as User } from "../../models/user.js";
 import { passwordvault } from "../../models/passwordVault.js";
 import CryptoJS from "crypto-js";
 import Response from "../../utils/Response.js";
+import { nodeCache } from "../../server.js";
 export const createPasswd = async (req, res) => {
   try {
     const { name, username, password, website } = req.body;
@@ -40,6 +41,7 @@ export const createPasswd = async (req, res) => {
       },
       { new: true }
     );
+    nodeCache.del("getSavedPasswd");
     Response(res, false, "credential saved", 200);
     return;
   } catch (error) {
