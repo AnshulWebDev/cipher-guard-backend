@@ -12,14 +12,14 @@ router.post("/createPasswd", Auth, isAuthUser, verifyAuthPin, createPasswd);
 router.post("/generatePasswd", Auth, isAuthUser, generatePasswd);
 router.get("/generateUsername", Auth, isAuthUser, generateUsername);
 router.delete(
-  "/deletePasswd",
+  "/deletePasswd/:id",
   Auth,
   isAuthUser,
   verifyAuthPin,
   deleteSavedPasswd
 );
 router.put(
-  "/updateSavedPasswd",
+  "/updateSavedPasswd/:id",
   Auth,
   isAuthUser,
   verifyAuthPin,

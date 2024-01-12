@@ -7,8 +7,8 @@ import { auth as Auth, isAuthAdmin } from "../middleware/auth.js";
 const router = express.Router();
 
 router.post("/getLockUser", Auth, isAuthAdmin, getLockUser);
-router.post("/unBlockUser", Auth, isAuthAdmin, unBlockUser);
-router.get("/statistics", Auth, isAuthAdmin, statistics);
+router.put("/unBlockUser", Auth, isAuthAdmin, unBlockUser);
+router.post("/statistics", Auth, isAuthAdmin, statistics);
 router.post("/adminLogin", adminLogin);
 
 export default router;
