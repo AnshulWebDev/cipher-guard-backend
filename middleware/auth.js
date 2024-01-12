@@ -19,6 +19,10 @@ export const auth = async (req, res, next) => {
       const decode = jwt.verify(token0, process.env.JWT_SECRET);
       req.user = decode;
     } catch (error) {
+      if (error.message == "jwt expired") {
+        Response(res, false, "session expired, Login again", 404);
+        return;
+      }
       Response(res, false, "Token Is Invalid", 404);
       return;
     }

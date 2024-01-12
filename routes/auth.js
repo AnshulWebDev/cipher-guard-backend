@@ -11,6 +11,7 @@ import {
   isAuthUser,
   verifyAuthPin,
 } from "./../middleware/auth.js";
+import { profile } from "./../controllers/auth/profile.js";
 const router = express.Router();
 
 router.post("/register/sendOtp", sendOtp);
@@ -20,4 +21,5 @@ router.post("/login", login);
 router.post("/logout", logout);
 router.post("/createVaultPin", Auth, createVaultPin);
 router.post("/vaultAuth", Auth, isAuthUser, vaultAuth);
+router.post("/profile", Auth, isAuthUser, profile);
 export default router;
