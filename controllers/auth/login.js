@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import Jwt from "jsonwebtoken";
 import { mailSender } from "../../utils/mailSender.js";
 import Response from "../../utils/Response.js";
+import { nodeCache } from "../../server.js";
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -20,6 +21,7 @@ export const login = async (req, res) => {
       Response(res, false, "user not found. Please register first", 404);
       return;
     } else if (users.accountLock) {
+      nodeCache.del("getLockUser");
       Response(
         res,
         false,
@@ -46,6 +48,7 @@ export const login = async (req, res) => {
       ) {
         users.accountLock = true;
         await users.save();
+        nodeCache.del("getLockUser");
         Response(
           res,
           false,

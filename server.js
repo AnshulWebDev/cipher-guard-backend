@@ -7,6 +7,7 @@ import Auth from "./routes/auth.js";
 import Note from "./routes/note.js";
 import passwdVault from "./routes/passwordVault.js";
 import features from "./routes/features.js";
+import admin from "./routes/admin.js";
 import NodeCache from "node-cache";
 dotenv.config();
 const PORT = process.env.PORT || 7000;
@@ -30,6 +31,6 @@ app.use("/api/auth", Auth);
 app.use("/api/note", Note);
 app.use("/api/passwordVault", passwdVault);
 app.use("/api/features", features);
-//middleware
+app.use("/api/admin", admin);
 
 export default app;

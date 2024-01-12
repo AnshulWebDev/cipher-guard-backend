@@ -15,7 +15,7 @@ export const getNote = async (req, res) => {
       Response(res, true, null, 200, note[0].notes);
       return;
     }
-    console.log(note[0].notes);
+    // console.log(note[0].notes);
     const decryptedNote = CryptoJS.AES.decrypt(
       note[0].notes,
       vaultPin

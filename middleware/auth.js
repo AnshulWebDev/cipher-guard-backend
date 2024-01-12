@@ -72,3 +72,25 @@ export const verifyAuthPin = async (req, res, next) => {
     return;
   }
 };
+//isAuthAdmin
+export const isAuthAdmin = async (req, res, next) => {
+  try {
+    //extract token
+    const user = req.user;
+    if (user.role !== "admin") {
+      Response(res, false, "only user access this route", 401);
+      return;
+    }
+
+    next();
+  } catch (error) {
+    console.log(error.message);
+    Response(
+      res,
+      false,
+      "Something went wrong while validating the token",
+      401
+    );
+    return;
+  }
+};

@@ -3,6 +3,7 @@ import Jwt from "jsonwebtoken";
 import { otp as OTP } from "../../../models/otp.js";
 import { mailSender } from "../../../utils/mailSender.js";
 import Response from "../../../utils/Response.js";
+import { nodeCache } from "../../../server.js";
 
 export const verifyOtp = async (req, res) => {
   try {
@@ -138,6 +139,7 @@ export const verifyOtp = async (req, res) => {
         </html>
         `
       );
+      nodeCache.del("allRegisterUser");
       return res.clearCookie("data").status(200).json({
         success: true,
         message: "Account create successfully",
