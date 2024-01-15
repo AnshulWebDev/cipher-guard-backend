@@ -21,7 +21,7 @@ app.use(cookieParser());
 connectDB();
 app.use(
   cors({
-    origin: "*",
+    origin: "http://localhost:3000",
   })
 );
 //routes Import
