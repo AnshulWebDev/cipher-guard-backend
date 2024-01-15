@@ -1,11 +1,11 @@
-import express from "express";
-import {
+const express = require("express");
+const {
   addEmergencyAccess,
   emergencyLogin,
-} from "../controllers/features/emergencyAccess.js";
-import { auth as Auth, isAuthUser } from "./../middleware/auth.js";
+} = require("../controllers/features/emergencyAccess.js");
+const { auth, isAuthUser } = require("./../middleware/auth.js");
 const router = express.Router();
 
-router.post("/emergencyAccess", Auth, isAuthUser, addEmergencyAccess);
-router.post("/emergencyLogin", Auth, isAuthUser, emergencyLogin);
-export default router;
+router.post("/emergencyAccess", auth, isAuthUser, addEmergencyAccess);
+router.post("/emergencyLogin", emergencyLogin);
+module.exports = router;

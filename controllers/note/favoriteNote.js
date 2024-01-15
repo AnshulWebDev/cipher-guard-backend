@@ -1,7 +1,7 @@
-import { secureNotes } from "../../models/secureNotes.js";
-import Response from "../../utils/Response.js";
-import { nodeCache } from "./../../server.js";
-export const favoriteNote = async (req, res) => {
+const secureNotes = require("../../models/secureNotes.js");
+const Response = require("../../utils/Response.js");
+const { nodeCache } = require("../../server.js");
+exports.favoriteNote = async (req, res) => {
   try {
     const { favorite } = req.body;
     const id = req.params.id;

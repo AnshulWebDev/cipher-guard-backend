@@ -1,9 +1,9 @@
-import { user as User } from "../../models/user.js";
-import { passwordvault } from "../../models/passwordVault.js";
-import CryptoJS from "crypto-js";
-import Response from "../../utils/Response.js";
-import { nodeCache } from "../../server.js";
-export const createPasswd = async (req, res) => {
+const User = require("../../models/user.js");
+const passwordvault = require("../../models/passwordVault.js");
+const CryptoJS = require("crypto-js");
+const Response = require("../../utils/Response.js");
+const { nodeCache } = require("../../server.js");
+exports.createPasswd = async (req, res) => {
   try {
     const { name, username, password, website } = req.body;
     const vaultPin = req.vaultPin;

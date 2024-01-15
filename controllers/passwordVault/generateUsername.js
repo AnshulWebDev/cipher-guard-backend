@@ -1,5 +1,5 @@
-import Response from "../../utils/Response.js";
-import { usernames } from "../../utils/username.js";
+const Response = require("../../utils/Response.js");
+const { usernames } = require("../../utils/username.js");
 function generateRandomUsernameWithNumber() {
   const randomIndex = Math.floor(Math.random() * usernames.length);
   const selectedUsername = usernames[randomIndex];
@@ -7,7 +7,7 @@ function generateRandomUsernameWithNumber() {
 
   return `${selectedUsername}${randomNumber}`;
 }
-export const generateUsername = async (req, res) => {
+exports.generateUsername = async (req, res) => {
   try {
     // Example: Generate 10 random usernames with numbers
     const randomGeneratedUsernames = generateRandomUsernameWithNumber();

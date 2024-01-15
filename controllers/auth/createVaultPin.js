@@ -1,7 +1,7 @@
-import { user as User } from "../../models/user.js";
-import bcrypt from "bcrypt";
-import Response from "../../utils/Response.js";
-export const createVaultPin = async (req, res) => {
+const User = require("../../models/user.js");
+const bcrypt = require("bcrypt");
+const Response = require("../../utils/Response.js");
+exports.createVaultPin = async (req, res) => {
   try {
     const { vaultPin } = req.body;
     const verifyUser = req.user;

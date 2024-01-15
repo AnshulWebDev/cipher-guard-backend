@@ -1,10 +1,9 @@
-import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-import Response from "../utils/Response.js";
-dotenv.config();
-import CryptoJS from "crypto-js";
+const jwt = require("jsonwebtoken");
+const Response = require("../utils/Response.js");
+require("dotenv").config();
+const CryptoJS = require("crypto-js");
 //auth
-export const auth = async (req, res, next) => {
+exports.auth = async (req, res, next) => {
   try {
     //extract token
     const token0 =
@@ -39,7 +38,7 @@ export const auth = async (req, res, next) => {
   }
 };
 //isAuthUser
-export const isAuthUser = async (req, res, next) => {
+exports.isAuthUser = async (req, res, next) => {
   try {
     //extract token
     const user = req.user;
@@ -61,7 +60,7 @@ export const isAuthUser = async (req, res, next) => {
   }
 };
 //verify Auth Pin
-export const verifyAuthPin = async (req, res, next) => {
+exports.verifyAuthPin = async (req, res, next) => {
   try {
     const vaultAuth = req.header("Authorization").replace("Bearer ", "");
     const decode = CryptoJS.AES.decrypt(
@@ -77,7 +76,7 @@ export const verifyAuthPin = async (req, res, next) => {
   }
 };
 //isAuthAdmin
-export const isAuthAdmin = async (req, res, next) => {
+exports.isAuthAdmin = async (req, res, next) => {
   try {
     //extract token
     const user = req.user;

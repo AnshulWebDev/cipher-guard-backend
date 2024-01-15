@@ -1,11 +1,11 @@
-import Response from "../../utils/Response.js";
-import { user as User } from "../../models/user.js";
-import validator from "validator";
-import bcrypt from "bcrypt";
-import { mailSender } from "../../utils/mailSender.js";
-import Jwt from "jsonwebtoken";
+const Response = require("../../utils/Response.js");
+const User = require("../../models/user.js");
+const validator = require("validator");
+const bcrypt = require("bcrypt");
+const { mailSender } = require("../../utils/mailSender.js");
+const Jwt = require("jsonwebtoken");
 
-export const addEmergencyAccess = async (req, res) => {
+exports.addEmergencyAccess = async (req, res) => {
   try {
     const verifyToken = req.user;
     const { email, confirmPassword, password } = req.body;
@@ -44,7 +44,7 @@ export const addEmergencyAccess = async (req, res) => {
   }
 };
 
-export const emergencyLogin = async (req, res) => {
+exports.emergencyLogin = async (req, res) => {
   try {
     const { emergencyMail, password } = req.body;
     if (!emergencyMail || !password) {

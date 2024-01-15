@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const secureNotesSchema = new mongoose.Schema({
   name: {
@@ -16,4 +16,4 @@ const secureNotesSchema = new mongoose.Schema({
     default: false,
   },
 });
-export const secureNotes = mongoose.model("securenotes", secureNotesSchema);
+module.exports = mongoose.model("securenotes", secureNotesSchema);

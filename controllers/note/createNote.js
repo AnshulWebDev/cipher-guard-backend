@@ -1,10 +1,9 @@
-import { user as User } from "../../models/user.js";
-import { secureNotes } from "../../models/secureNotes.js";
-import CryptoJS from "crypto-js";
-import bcrypt from "bcrypt";
-import Response from "../../utils/Response.js";
-import { nodeCache } from "./../../server.js";
-export const createNote = async (req, res) => {
+const User = require("../../models/user.js");
+const secureNotes = require("../../models/secureNotes.js");
+const CryptoJS = require("crypto-js");
+const Response = require("../../utils/Response.js");
+const { nodeCache } = require("../../server.js");
+exports.createNote = async (req, res) => {
   try {
     const { name, note, favorite, lockNote } = req.body;
     const vaultPin = req.vaultPin;

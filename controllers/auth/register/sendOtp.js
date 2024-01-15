@@ -1,12 +1,11 @@
-import { user } from "../../../models/user.js";
-import bcrypt from "bcrypt";
-import validator from "validator";
-import { mailSender } from "../../../utils/mailSender.js";
-import otpGenerator from "otp-generator";
-import Jwt from "jsonwebtoken";
-import { otp } from "../../../models/otp.js";
-import Response from "../../../utils/Response.js";
-export const sendOtp = async (req, res) => {
+const bcrypt = require("bcrypt");
+const validator = require("validator");
+const { mailSender } = require("../../../utils/mailSender.js");
+const otpGenerator = require("otp-generator");
+const Jwt = require("jsonwebtoken");
+const otp = require("../../../models/otp.js");
+const Response = require("../../../utils/Response.js");
+exports.sendOtp = async (req, res) => {
   try {
     const { firstName, lastName, email, confirmPassword, password } = req.body;
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,})/;

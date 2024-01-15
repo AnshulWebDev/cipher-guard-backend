@@ -1,9 +1,9 @@
-import { otp } from "../../../models/otp.js";
-import otpGenerator from "otp-generator";
-import { mailSender } from "../../../utils/mailSender.js";
-import Response from "./../../../utils/Response.js";
-import Jwt from "jsonwebtoken";
-export const resendOtp = async (req, res) => {
+const otp = require("../../../models/otp.js");
+const otpGenerator = require("otp-generator");
+const { mailSender } = require("../../../utils/mailSender.js");
+const Response = require("./../../../utils/Response.js");
+const Jwt = require("jsonwebtoken");
+exports.resendOtp = async (req, res) => {
   try {
     const cookiesValue =
       req.cookies.data.value ||

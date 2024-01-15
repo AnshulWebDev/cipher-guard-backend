@@ -1,16 +1,16 @@
-import express from "express";
-import { getLockUser } from "../controllers/admin/getLockUser.js";
-import { unBlockUser } from "../controllers/admin/unBlockUser.js";
-import { statistics } from "../controllers/admin/statistics.js";
-import { adminLogin } from "../controllers/admin/adminLogin.js";
-import { auth as Auth, isAuthAdmin } from "../middleware/auth.js";
-import { adminProfile } from "./../controllers/admin/adminProfile.js";
+const express =require("express") ;
+const { getLockUser } =require("../controllers/admin/getLockUser.js") ;
+const { unBlockUser } =require("../controllers/admin/unBlockUser.js") ;
+const { statistics } =require("../controllers/admin/statistics.js") ;
+const { adminLogin } =require("../controllers/admin/adminLogin.js") ;
+const { auth, isAuthAdmin } =require("../middleware/auth.js") ;
+const { adminProfile } =require( "./../controllers/admin/adminProfile.js");
 const router = express.Router();
 
-router.post("/getLockUser", Auth, isAuthAdmin, getLockUser);
-router.put("/unBlockUser", Auth, isAuthAdmin, unBlockUser);
-router.post("/statistics", Auth, isAuthAdmin, statistics);
+router.post("/getLockUser", auth, isAuthAdmin, getLockUser);
+router.put("/unBlockUser", auth, isAuthAdmin, unBlockUser);
+router.post("/statistics", auth, isAuthAdmin, statistics);
 router.post("/adminLogin", adminLogin);
-router.post("/adminProfile", Auth, isAuthAdmin, adminProfile);
+router.post("/adminProfile", auth, isAuthAdmin, adminProfile);
 
-export default router;
+module.exports = router;

@@ -1,4 +1,4 @@
-export const usernames = `
+exports.usernames = `
 3d
 a
 a1

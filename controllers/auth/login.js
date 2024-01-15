@@ -1,11 +1,11 @@
-import { user } from "../../models/user.js";
-import validator from "validator";
-import bcrypt from "bcrypt";
-import Jwt from "jsonwebtoken";
-import { mailSender } from "../../utils/mailSender.js";
-import Response from "../../utils/Response.js";
-import { nodeCache } from "../../server.js";
-export const login = async (req, res) => {
+const user = require("../../models/user.js");
+const validator = require("validator");
+const bcrypt = require("bcrypt");
+const Jwt = require("jsonwebtoken");
+const { mailSender } = require("../../utils/mailSender.js");
+const Response = require("../../utils/Response.js");
+const { nodeCache } = require("../../server.js");
+exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {

@@ -1,28 +1,28 @@
-import express from "express";
-import { createNote } from "../controllers/note/createNote.js";
-import { deleteNote } from "../controllers/note/deleteNote.js";
-import { favoriteNote } from "../controllers/note/favoriteNote.js";
-import { getAllNote } from "../controllers/note/getAllNote.js";
-import { getFavoriteNote } from "../controllers/note/getFavoriteNote.js";
-import { getNote } from "../controllers/note/getNote.js";
-import { searchNote } from "../controllers/note/searchNote.js";
-import { updateNote } from "../controllers/note/updateNote.js";
-import { auth as Auth, isAuthUser, verifyAuthPin } from "../middleware/auth.js";
+const express = require("express");
+const { createNote } = require("../controllers/note/createNote.js");
+const { deleteNote } = require("../controllers/note/deleteNote.js");
+const { favoriteNote } = require("../controllers/note/favoriteNote.js");
+const { getAllNote } = require("../controllers/note/getAllNote.js");
+const { getFavoriteNote } = require("../controllers/note/getFavoriteNote.js");
+const { getNote } = require("../controllers/note/getNote.js");
+const { searchNote } = require("../controllers/note/searchNote.js");
+const { updateNote } = require("../controllers/note/updateNote.js");
+const { auth, isAuthUser, verifyAuthPin } = require("../middleware/auth.js");
 const router = express.Router();
 
-router.post("/createNote", Auth, isAuthUser, verifyAuthPin, createNote);
-router.delete("/deleteNote/:id", Auth, isAuthUser, verifyAuthPin, deleteNote);
-router.put("/favoriteNote/:id", Auth, isAuthUser, verifyAuthPin, favoriteNote);
-router.get("/getAllNote", Auth, isAuthUser, verifyAuthPin, getAllNote);
+router.post("/createNote", auth, isAuthUser, verifyAuthPin, createNote);
+router.delete("/deleteNote/:id", auth, isAuthUser, verifyAuthPin, deleteNote);
+router.put("/favoriteNote/:id", auth, isAuthUser, verifyAuthPin, favoriteNote);
+router.get("/getAllNote", auth, isAuthUser, verifyAuthPin, getAllNote);
 router.get(
   "/getFavoriteNote",
-  Auth,
+  auth,
   isAuthUser,
   verifyAuthPin,
   getFavoriteNote
 );
-router.get("/getNote/:id", Auth, isAuthUser, verifyAuthPin, getNote);
-router.get("/searchNote", Auth, isAuthUser, verifyAuthPin, searchNote);
-router.put("/updateNote/:id", Auth, isAuthUser, verifyAuthPin, updateNote);
+router.get("/getNote/:id", auth, isAuthUser, verifyAuthPin, getNote);
+router.get("/searchNote", auth, isAuthUser, verifyAuthPin, searchNote);
+router.put("/updateNote/:id", auth, isAuthUser, verifyAuthPin, updateNote);
 
-export default router;
+module.exports = router;

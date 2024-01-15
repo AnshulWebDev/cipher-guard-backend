@@ -1,8 +1,8 @@
-import { user as User } from "../../models/user.js";
-import { nodeCache } from "../../server.js";
-import Response from "../../utils/Response.js";
+const User = require("../../models/user.js");
+const { nodeCache } = require("../../server.js");
+const Response = require("../../utils/Response.js");
 
-export const statistics = async (req, res) => {
+exports.statistics = async (req, res) => {
   try {
     const getAllRegisterUser = await User.find();
     let allRegisterUser;

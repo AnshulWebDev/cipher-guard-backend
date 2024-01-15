@@ -7,4 +7,4 @@ const Response = (res, success, message, status, data = null) => {
   });
 };
 
-export default Response;
+module.exports = Response;

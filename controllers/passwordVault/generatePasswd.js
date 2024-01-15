@@ -1,5 +1,5 @@
-import { uniquepasswd } from "../../models/uniquepasswd.js";
-import Response from "../../utils/Response.js";
+const uniquepasswd = require("../../models/uniquepasswd.js");
+const Response = require("../../utils/Response.js");
 
 const uniquePassWdGenerator = (options, length) => {
   let result = "";
@@ -32,7 +32,7 @@ const uniquePassWdGenerator = (options, length) => {
   return result;
 };
 
-export const generatePasswd = async (req, res) => {
+exports.generatePasswd = async (req, res) => {
   try {
     const { capital, small, special, number, length } = req.body;
     if (!capital && !small && !special && !number) {

@@ -1,9 +1,9 @@
-import { passwordvault } from "../../models/passwordVault.js";
-import { user as User } from "../../models/user.js";
-import { nodeCache } from "../../server.js";
-import Response from "../../utils/Response.js";
+const passwordvault = require("../../models/passwordVault.js");
+const User = require("../../models/user.js");
+const { nodeCache } = require("../../server.js");
+const Response = require("../../utils/Response.js");
 
-export const deleteSavedPasswd = async (req, res) => {
+exports.deleteSavedPasswd = async (req, res) => {
   try {
     const verifyToken = req.user;
     const id = req.params.id;
@@ -12,7 +12,7 @@ export const deleteSavedPasswd = async (req, res) => {
       await User.findByIdAndUpdate(verifyToken.id, {
         $pull: { passwordVault: id },
       });
-      nodeCache.del("getSavedPasswd")
+      nodeCache.del("getSavedPasswd");
       Response(res, true, "Password delete successfully", 200);
       return;
     } catch (error) {

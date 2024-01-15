@@ -1,7 +1,7 @@
-import { user as User } from "../../models/user.js";
-import Response from "../../utils/Response.js";
+const User = require("../../models/user.js");
+const Response = require("../../utils/Response.js");
 
-export const profile = async (req, res) => {
+exports.profile = async (req, res) => {
   try {
     const verifyToken = req.user;
     const userDetails = await User.findById(verifyToken.id);

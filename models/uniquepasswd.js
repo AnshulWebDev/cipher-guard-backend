@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const uniquepasswdSchema = new mongoose.Schema({
   passwd: {
@@ -6,4 +6,4 @@ const uniquepasswdSchema = new mongoose.Schema({
     unique: true,
   },
 });
-export const uniquepasswd = mongoose.model("uniquepasswd", uniquepasswdSchema);
+module.exports = mongoose.model("uniquepasswd", uniquepasswdSchema);

@@ -1,8 +1,8 @@
-import { passwordvault } from "../../models/passwordVault.js";
-import { nodeCache } from "../../server.js";
-import Response from "../../utils/Response.js";
+const passwordvault = require("../../models/passwordVault.js");
+const { nodeCache } = require("../../server.js");
+const Response = require("../../utils/Response.js");
 
-export const updateSavedPasswd = async (req, res) => {
+exports.updateSavedPasswd = async (req, res) => {
   try {
     const vaultPin = req.vaultPin;
     const id = req.params.id;

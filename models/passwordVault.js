@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const passwordVault = new mongoose.Schema({
   name: {
@@ -36,4 +36,4 @@ const passwordVault = new mongoose.Schema({
     default: 0,
   },
 });
-export const passwordvault = mongoose.model("passwordVault", passwordVault);
+module.exports = mongoose.model("passwordVault", passwordVault);

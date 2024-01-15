@@ -1,8 +1,8 @@
-import { user as User } from "../../models/user.js";
-import Response from "../../utils/Response.js";
-import { nodeCache } from "./../../server.js";
+const User = require("../../models/user.js");
+const Response = require("../../utils/Response.js");
+const { nodeCache } = require("../../server.js");
 
-export const getSavedPasswd = async (req, res) => {
+exports.getSavedPasswd = async (req, res) => {
   try {
     const verifyToken = req.user;
     let getAllSavedPasswd;

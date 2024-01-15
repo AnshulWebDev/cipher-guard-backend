@@ -1,8 +1,8 @@
-import { secureNotes } from "../../models/secureNotes.js";
-import CryptoJS from "crypto-js";
-import Response from "../../utils/Response.js";
-import { nodeCache } from "../../server.js";
-export const updateNote = async (req, res) => {
+const secureNotes = require("../../models/secureNotes.js");
+const CryptoJS = require("crypto-js");
+const Response = require("../../utils/Response.js");
+const { nodeCache } = require("../../server.js");
+exports.updateNote = async (req, res) => {
   try {
     const { name, note, favorite } = req.body;
     const vaultPin = req.vaultPin;

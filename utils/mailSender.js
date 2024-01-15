@@ -1,6 +1,6 @@
-import nodeMailer from "nodemailer";
+const nodeMailer = require("nodemailer");
 
-export const mailSender = async (email, title, body) => {
+exports.mailSender = async (email, title, body) => {
   try {
     let transpoter = nodeMailer.createTransport({
       host: process.env.SMTP_HOST,

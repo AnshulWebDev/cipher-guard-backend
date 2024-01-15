@@ -1,8 +1,8 @@
-import { user as User } from "../../models/user.js";
-import { nodeCache } from "../../server.js";
-import Response from "../../utils/Response.js";
+const User = require("../../models/user.js");
+const { nodeCache } = require("../../server.js");
+const Response = require("../../utils/Response.js");
 
-export const getFavoriteNote = async (req, res) => {
+exports.getFavoriteNote = async (req, res) => {
   try {
     const verifyToken = req.user;
     let favoriteNotes;

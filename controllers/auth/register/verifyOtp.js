@@ -1,11 +1,11 @@
-import { user } from "../../../models/user.js";
-import Jwt from "jsonwebtoken";
-import { otp as OTP } from "../../../models/otp.js";
-import { mailSender } from "../../../utils/mailSender.js";
-import Response from "../../../utils/Response.js";
-import { nodeCache } from "../../../server.js";
+const user = require("../../../models/user.js");
+const Jwt = require("jsonwebtoken");
+const OTP = require("../../../models/otp.js");
+const { mailSender } = require("../../../utils/mailSender.js");
+const Response = require("../../../utils/Response.js");
+const { nodeCache } = require("../../../server.js");
 
-export const verifyOtp = async (req, res) => {
+exports.verifyOtp = async (req, res) => {
   try {
     const { otp } = req.body;
     const cookiesValue =

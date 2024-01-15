@@ -1,18 +1,19 @@
-import express from "express";
-import dotenv from "dotenv";
-import cookieParser from "cookie-parser";
-import cors from "cors";
-import { connectDB } from "./config/database.js";
-import Auth from "./routes/auth.js";
-import Note from "./routes/note.js";
-import passwdVault from "./routes/passwordVault.js";
-import features from "./routes/features.js";
-import admin from "./routes/admin.js";
-import NodeCache from "node-cache";
-dotenv.config();
+const express = require("express");
+const dotenv = require("dotenv");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+const { connectDB } = require("./config/database.js");
+const Auth = require("./routes/auth.js");
+const Note = require("./routes/note.js");
+const passwdVault = require("./routes/passwordVault.js");
+const features = require("./routes/features.js");
+const admin = require("./routes/admin.js");
+const NodeCache = require("node-cache");
 const PORT = process.env.PORT || 7000;
+dotenv.config();
 const app = express();
-export const nodeCache = new NodeCache();
+const nodeCache = new NodeCache();
+module.exports = nodeCache;
 app.listen(PORT, () => {
   console.log(`App is running at ${PORT}`);
 });
@@ -33,4 +34,4 @@ app.use("/api/passwordVault", passwdVault);
 app.use("/api/features", features);
 app.use("/api/admin", admin);
 
-export default app;
+module.exports = app;

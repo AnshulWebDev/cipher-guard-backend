@@ -1,10 +1,9 @@
-import { user as User } from "../../models/user.js";
-import bcrypt from "bcrypt";
-import Response from "../../utils/Response.js";
-import CryptoJS from "crypto-js";
-import dotenv from "dotenv";
-dotenv.config();
-export const vaultAuth = async (req, res) => {
+const User = require("../../models/user.js");
+const bcrypt = require("bcrypt");
+const Response = require("../../utils/Response.js");
+const CryptoJS = require("crypto-js");
+require("dotenv").config();
+exports.vaultAuth = async (req, res) => {
   try {
     const { vaultPin } = req.body;
     const verifyUser = req.user;
@@ -22,7 +21,7 @@ export const vaultAuth = async (req, res) => {
     const encrypt = await CryptoJS.AES.encrypt(
       vaultPin,
       process.env.SECUREPIN
-    ).toString(); 
+    ).toString();
 
     Response(res, true, "vault unlock", 200, encrypt);
     return;

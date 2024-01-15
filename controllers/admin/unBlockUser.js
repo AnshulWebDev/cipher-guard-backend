@@ -1,8 +1,8 @@
-import { user as User } from "../../models/user.js";
-import Response from "../../utils/Response.js";
-import { mailSender } from "../../utils/mailSender.js";
+const User = require("../../models/user.js");
+const Response = require("../../utils/Response.js");
+const { mailSender } = require("../../utils/mailSender.js");
 
-export const unBlockUser = async (req, res) => {
+exports.unBlockUser = async (req, res) => {
   try {
     const id = req.params.id;
     const { unblock } = req.body;
