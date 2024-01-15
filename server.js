@@ -9,6 +9,7 @@ const passwdVault = require("./routes/passwordVault.js");
 const features = require("./routes/features.js");
 const admin = require("./routes/admin.js");
 const nodeCache = require("./utils/nodeCache.js");
+const Response = require("./utils/Response.js");
 const PORT = process.env.PORT || 7000;
 dotenv.config();
 const app = express();
@@ -24,6 +25,10 @@ app.use(
   })
 );
 //routes Import
+app.get("/", (req, res) => {
+  Response(res, true, "Api is Working", 200);
+  return;
+});
 app.use("/api/auth", Auth);
 app.use("/api/note", Note);
 app.use("/api/passwordVault", passwdVault);
