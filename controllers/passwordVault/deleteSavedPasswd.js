@@ -1,6 +1,6 @@
 const passwordvault = require("../../models/passwordVault.js");
 const User = require("../../models/user.js");
-const { nodeCache } = require("../../server.js");
+const nodeCache = require("../../utils/nodeCache.js");
 const Response = require("../../utils/Response.js");
 
 exports.deleteSavedPasswd = async (req, res) => {

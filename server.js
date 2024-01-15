@@ -8,12 +8,10 @@ const Note = require("./routes/note.js");
 const passwdVault = require("./routes/passwordVault.js");
 const features = require("./routes/features.js");
 const admin = require("./routes/admin.js");
-const NodeCache = require("node-cache");
+const nodeCache = require("./utils/nodeCache.js");
 const PORT = process.env.PORT || 7000;
 dotenv.config();
 const app = express();
-const nodeCache = new NodeCache();
-module.exports = nodeCache;
 app.listen(PORT, () => {
   console.log(`App is running at ${PORT}`);
 });
@@ -22,11 +20,9 @@ app.use(cookieParser());
 connectDB();
 app.use(
   cors({
-    origin: "http://localhost:3000",
-    credentials: true,
+    origin: "*",
   })
 );
-
 //routes Import
 app.use("/api/auth", Auth);
 app.use("/api/note", Note);
@@ -34,4 +30,4 @@ app.use("/api/passwordVault", passwdVault);
 app.use("/api/features", features);
 app.use("/api/admin", admin);
 
-module.exports = app;
+module.exports = { app, nodeCache }; // Export app and nodeCache

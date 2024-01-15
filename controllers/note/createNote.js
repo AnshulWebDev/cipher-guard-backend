@@ -2,7 +2,7 @@ const User = require("../../models/user.js");
 const secureNotes = require("../../models/secureNotes.js");
 const CryptoJS = require("crypto-js");
 const Response = require("../../utils/Response.js");
-const { nodeCache } = require("../../server.js");
+const nodeCache = require("../../utils/nodeCache.js");
 exports.createNote = async (req, res) => {
   try {
     const { name, note, favorite, lockNote } = req.body;

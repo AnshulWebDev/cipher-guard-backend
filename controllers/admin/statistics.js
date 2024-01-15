@@ -1,5 +1,5 @@
 const User = require("../../models/user.js");
-const { nodeCache } = require("../../server.js");
+const nodeCache = require("../../utils/nodeCache.js");
 const Response = require("../../utils/Response.js");
 
 exports.statistics = async (req, res) => {

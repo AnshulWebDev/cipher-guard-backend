@@ -1,5 +1,5 @@
 const passwordvault = require("../../models/passwordVault.js");
-const { nodeCache } = require("../../server.js");
+const nodeCache = require("../../utils/nodeCache.js");
 const Response = require("../../utils/Response.js");
 
 exports.updateSavedPasswd = async (req, res) => {

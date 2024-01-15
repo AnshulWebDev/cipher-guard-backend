@@ -1,7 +1,7 @@
 const User = require("../../models/user.js");
 const secureNotes = require("../../models/secureNotes.js");
 const Response = require("../../utils/Response.js");
-const { nodeCache } = require("../../server.js");
+const nodeCache = require("../../utils/nodeCache.js");
 exports.deleteNote = async (req, res) => {
   try {
     const verifyUser = req.user;

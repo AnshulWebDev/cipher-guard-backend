@@ -1,6 +1,6 @@
 const secureNotes = require("../../models/secureNotes.js");
 const Response = require("../../utils/Response.js");
-const { nodeCache } = require("../../server.js");
+const nodeCache = require("../../utils/nodeCache.js");
 exports.favoriteNote = async (req, res) => {
   try {
     const { favorite } = req.body;

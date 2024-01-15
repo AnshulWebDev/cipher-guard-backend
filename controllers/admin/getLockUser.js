@@ -1,6 +1,6 @@
 const User = require("../../models/user.js");
 const Response = require("../../utils/Response.js");
-const { nodeCache } = require("../../server.js");
+const nodeCache = require("../../utils/nodeCache.js");
 
 exports.getLockUser = async (req, res) => {
   try {
