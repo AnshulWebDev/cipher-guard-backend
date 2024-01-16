@@ -127,9 +127,8 @@ exports.verifyOtp = async (req, res) => {
                 <li>Username Generator option</li>
                 <li>Password Storage and Encryption</li>
                 <li>Secure Notes</li>
-                <li>After four unsuccessful password attempts, the account may be temporarily suspended for security purposes</li>
+                <li>4 password login attempts</li>
                 <li>Emergency Access</li>
-                <li>login alert (if user think there is suspicious login they can temporarily blocked their account)</li>
                 <li>Vault password</li>
               </ul>
           
