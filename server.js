@@ -26,6 +26,7 @@ app.use(
     credentials: true, // Allow cookies and other credentials to be sent
     preflightContinue: false,
     optionsSuccessStatus: 204,
+    allowedHeaders: 'Content-Type,Authorization',
   })
 );
 
