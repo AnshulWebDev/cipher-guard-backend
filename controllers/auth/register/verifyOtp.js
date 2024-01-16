@@ -143,10 +143,8 @@ exports.verifyOtp = async (req, res) => {
           `
       );
       nodeCache.del("allRegisterUser");
-      return res.clearCookie("data").status(200).json({
-        success: true,
-        message: "Account create successfully",
-      })
+      Response(res, true, "Account create successfully", 200);
+      return;
     }
   } catch (error) {
     console.log(error.message);
