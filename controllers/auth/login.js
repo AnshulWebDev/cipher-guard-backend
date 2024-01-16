@@ -175,6 +175,16 @@ exports.login = async (req, res) => {
         httpOnly: true,
         expires: new Date(Date.now() + 4 + 24 * 60 * 60 * 1000),
       };
+      // Set CORS headers
+      res.header(
+        "Access-Control-Allow-Origin",
+        "https://your-frontend-domain.com"
+      );
+      res.header(
+        "Access-Control-Allow-Methods",
+        "GET,HEAD,PUT,PATCH,POST,DELETE"
+      );
+      res.header("Access-Control-Allow-Credentials", "true");
       res
         .cookie("token", token, options)
         .status(200)
