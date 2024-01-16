@@ -7,6 +7,7 @@ exports.createNote = async (req, res) => {
   try {
     const { name, note, favorite, lockNote } = req.body;
     const vaultPin = req.vaultPin;
+    const userEmail = req.user.email;
     if (!name) {
       Response(res, false, "enter note name", 422);
       return;
@@ -22,6 +23,7 @@ exports.createNote = async (req, res) => {
         notes: note,
         favorite: favorite ? true : false,
         encrypt: encrypt,
+        email: userEmail,
       });
       await User.findByIdAndUpdate(
         user._id,

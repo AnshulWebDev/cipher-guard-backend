@@ -15,5 +15,9 @@ const secureNotesSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  email: {
+    type: String,
+    select: false,
+  },
 });
 module.exports = mongoose.model("securenotes", secureNotesSchema);

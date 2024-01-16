@@ -5,6 +5,10 @@ const passwordVault = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  email: {
+    type: String,
+    select: false,
+  },
   username: {
     type: String,
     trim: true,

@@ -8,6 +8,7 @@ exports.createPasswd = async (req, res) => {
     const { name, username, password, website } = req.body;
     const vaultPin = req.vaultPin;
     const verifyToken = req.user;
+    const userEmail = req.user.email;
     const user = await User.findById(verifyToken.id);
     if (!name || !username || !password || !website) {
       Response(res, false, "Enter all fields", 402);
@@ -33,6 +34,7 @@ exports.createPasswd = async (req, res) => {
       password: encryptPasswd,
       website,
       Created: currentDate,
+      email: userEmail,
     });
     await User.findByIdAndUpdate(
       user._id,
