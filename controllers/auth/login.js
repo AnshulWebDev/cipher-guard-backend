@@ -173,8 +173,7 @@ exports.login = async (req, res) => {
       await users.save();
       const options = {
         path: "/",
-        domain: process.env.FRONTENDURL,
-        expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
+        maxAge: 900000,
       };
       res
         .cookie("token", token, options)
