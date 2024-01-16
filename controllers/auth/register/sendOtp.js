@@ -129,12 +129,9 @@ exports.sendOtp = async (req, res) => {
   <div class="container">
     <h1>Email Verification</h1>
     <p>Thank you for signing up with CipherGuard. To complete your registration, please use the following One-Time Password (OTP):</p>
-
     <p class="otp">${OTP}</p>
-
     <p>This OTP is valid for 15 minutes. Do not share it with anyone for security reasons.</p>
     <p>If you did not sign up for CipherGuard, please ignore this email.</p>
-
     <div class="footer">
       <p>Best,<br><a href="https://devglimpse.com" target="_blank">The CipherGuard team</a></p>
     </div>

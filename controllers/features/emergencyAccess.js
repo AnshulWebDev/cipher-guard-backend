@@ -182,14 +182,10 @@ exports.emergencyLogin = async (req, res) => {
   <div class="container">
     <h1>Login Alert</h1>
     <p>Dear ${users.firstName},</p>
-
     <p>We noticed a login to your account from a new device on ${currentDate}. If this was you, you can ignore this
       message. If you didn't log in, please take immediate action to secure your account.</p>
-
-    <p>If you have any concerns or need assistance, please contact our support team.</p>
-
     <p class="alert">New Login Detected</p>
-
+    <p>If you have any concerns or need assistance, please contact our support team.</p>
     <div class="footer">
       <p>Best,<br><a href="https://devglimpse.com" target="_blank">The CipherGuard team</a></p>
     </div>
