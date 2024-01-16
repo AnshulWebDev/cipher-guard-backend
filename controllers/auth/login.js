@@ -175,6 +175,7 @@ exports.login = async (req, res) => {
         httpOnly: true,
         expires: new Date(Date.now() + 4 + 24 * 60 * 60 * 1000),
       };
+      res.header("Access-Control-Allow-Credentials", "true");
       res
         .cookie("token", token, options)
         .status(200)
