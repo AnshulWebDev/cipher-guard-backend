@@ -26,6 +26,7 @@ app.use(
     credentials: true,
     preflightContinue: false,
     optionsSuccessStatus: 204,
+    allowedHeaders: 'Content-Type,Authorization',
   })
 );
 

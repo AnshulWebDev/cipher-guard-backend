@@ -172,10 +172,8 @@ exports.login = async (req, res) => {
       users.token = token;
       await users.save();
       const options = {
-        path: "/",
-        expires: new Date(Date.now() + 1.5 + 24 + 60 + 60 + 1000),
         httpOnly: true,
-        secure: true,
+        expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
       };
       res
         .cookie("token", token, options)
