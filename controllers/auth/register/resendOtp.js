@@ -6,7 +6,7 @@ const Jwt = require("jsonwebtoken");
 exports.resendOtp = async (req, res) => {
   try {
     const cookiesValue =
-      req.cookies.data.value ||
+      req.cookies.data ||
       req.header("Authorization").replace("Bearer ", "");
     if (!cookiesValue) {
       Response(res, false, "Please register first", 422);
