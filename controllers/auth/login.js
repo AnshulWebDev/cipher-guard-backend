@@ -173,7 +173,7 @@ exports.login = async (req, res) => {
       await users.save();
       const options = {
         path: "/",
-        expires: new Date(Date.now() + 21600000),
+        expires: new Date(Date.now() + 1.5 + 24 + 60 + 60 + 1000),
         httpOnly: true,
         secure: true,
       };
