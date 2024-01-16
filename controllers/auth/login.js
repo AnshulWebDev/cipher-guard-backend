@@ -172,7 +172,7 @@ exports.login = async (req, res) => {
       users.token = token;
       await users.save();
       const options = {
-        httpOnly: false,
+        httpOnly: true,
         expires: new Date(Date.now() + 6 * 60 * 60 * 1000),
         sameSite: "none",
         secure: true,
