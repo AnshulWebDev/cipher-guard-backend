@@ -173,7 +173,7 @@ exports.login = async (req, res) => {
       await users.save();
       const options = {
         path: "/",
-        maxAge: 900000,
+        maxAge: 21600000,
       };
       res
         .cookie("token", token, options)
