@@ -30,7 +30,6 @@ exports.login = async (req, res) => {
       );
       return;
     }
-    // Todo emergency access
     let isPasswordMatch = await bcrypt.compare(password, users.password);
 
     if (!isPasswordMatch) {
@@ -173,7 +172,7 @@ exports.login = async (req, res) => {
       users.token = token;
       await users.save();
       const options = {
-        httpOnly: true,
+        httpOnly: false,
         expires: new Date(Date.now() + 4 + 24 * 60 * 60 * 1000),
       };
       res
