@@ -12,7 +12,6 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     unique: true,
-    trim: true,
   },
   isEmailVerify: {
     type: Boolean,
@@ -66,7 +65,6 @@ const userSchema = new mongoose.Schema({
   emergencyMail: {
     type: String,
     trim: true,
-    unique: true,
   },
   emergencyAccessPasswd: {
     type: String,
