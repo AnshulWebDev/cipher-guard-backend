@@ -174,7 +174,7 @@ exports.login = async (req, res) => {
       const options = {
         path: "/",
         httpsOnly: false,
-        maxAge: 21600000,
+        expires: 21600000,
       };
       res
         .cookie("token", token, options)
