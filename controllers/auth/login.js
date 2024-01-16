@@ -173,6 +173,7 @@ exports.login = async (req, res) => {
       await users.save();
       const options = {
         path: "/",
+        httpsOnly: false,
         maxAge: 21600000,
       };
       res
