@@ -3,7 +3,7 @@ const Jwt = require("jsonwebtoken");
 const OTP = require("../../../models/otp.js");
 const { mailSender } = require("../../../utils/mailSender.js");
 const Response = require("../../../utils/Response.js");
-const { nodeCache } = require("../../../server.js");
+const nodeCache = require("../../../utils/nodeCache.js");
 
 exports.verifyOtp = async (req, res) => {
   try {
