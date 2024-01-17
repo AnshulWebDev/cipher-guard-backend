@@ -19,12 +19,25 @@ exports.adminLogin = async (req, res) => {
     if (!users) {
       Response(res, false, "user not found. Please register first", 404);
       return;
+    } else if (users.role != "admin") {
+      Response(res, false, "Login is restricted to administrators only", 405);
+      return;
     }
     let isPasswordMatch = await bcrypt.compare(password, users.password);
     if (!isPasswordMatch) {
       Response(res, false, "Enter correct Password", 404);
       return;
     } else {
+      const currentDate = new Date().toLocaleString("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true,
+        timeZone: "Asia/Kolkata",
+      });
       await mailSender(
         users.email,
         "Login from new device",

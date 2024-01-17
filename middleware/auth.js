@@ -81,7 +81,7 @@ exports.isAuthAdmin = async (req, res, next) => {
     //extract token
     const user = req.user;
     if (user.role !== "admin") {
-      Response(res, false, "only user access this route", 401);
+      Response(res, false, "only Admin access this route", 401);
       return;
     }
 
