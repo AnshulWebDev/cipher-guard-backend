@@ -39,13 +39,17 @@ exports.verifyOtp = async (req, res) => {
       Response(res, false, "Email is already registered", 422);
       return;
     } else {
+      const [First, Last] = [decode.firstName, decode.lastName].map((str) =>
+        str.charAt(0)
+      );
+
       await user.create({
         firstName: decode.firstName,
         lastName: decode.lastName,
         email: decode.email,
         isEmailVerify: true,
         password: decode.password,
-        profileImg: `https://api.dicebear.com/7.x/fun-emoji/png?seed=${decode.firstName}`,
+        profileImg: `https://api.dicebear.com/7.x/initials/svg?seed=${First}${Last}`,
       });
       await mailSender(
         decode.email,
