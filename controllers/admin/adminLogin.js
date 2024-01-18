@@ -127,8 +127,6 @@ exports.adminLogin = async (req, res) => {
       const token = Jwt.sign(payload, process.env.JWT_SECRET, {
         expiresIn: "6h",
       });
-      users.token = token;
-      await users.save();
       const options = {
         httpOnly: true,
         expires: new Date(Date.now() + 4 + 24 * 60 * 60 * 1000),
@@ -140,6 +138,12 @@ exports.adminLogin = async (req, res) => {
           success: true,
           message: `Welcome back ${users.firstName}`,
           data: token,
+          profile: {
+            firstName: users.firstName,
+            lastName: users.lastName,
+            email: users.email,
+            profileImg: users.profileImg,
+          },
         });
       return;
     }
