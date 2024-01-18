@@ -21,7 +21,7 @@ app.use(cookieParser());
 connectDB();
 app.use(
   cors({
-    origin: [process.env.FRONTENDURL],
+    origin: process.env.FRONTENDURL,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
     preflightContinue: false,
