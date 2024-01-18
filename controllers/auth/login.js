@@ -82,7 +82,7 @@ exports.login = async (req, res) => {
       });
       await mailSender(
         users.email,
-        "Login from new device",
+        "Login Alert",
         `
         <!DOCTYPE html>
 <html lang="en">
@@ -90,7 +90,7 @@ exports.login = async (req, res) => {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Alert</title>
+  <title>Login from new device</title>
   <style>
     /* Add your styles here */
     body {
