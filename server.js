@@ -21,15 +21,14 @@ app.use(cookieParser());
 connectDB();
 app.use(
   cors({
-    origin: process.env.FRONTENDURL,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    origin: [process.env.FRONTENDURL],
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
     preflightContinue: false,
     optionsSuccessStatus: 204,
-    allowedHeaders: 'Content-Type,Authorization',
+    allowedHeaders: "Content-Type,Authorization",
   })
 );
-
 
 //routes Import
 app.get("/", (req, res) => {
