@@ -6,17 +6,17 @@ const Response = require("../../utils/Response.js");
 
 exports.statistics = async (req, res) => {
   try {
-    const getAllRegisterUser = await User.find()
-      .sort({ createdAt: -1 })
-      .limit(6);
-    const totalNotes = await Notes.countDocuments();
-    const totalPassword = await Password.countDocuments();
     let allRegisterUser;
     if (nodeCache.has("allRegisterUser")) {
-      allRegisterUser = nodeCache.get(JSON.parse("allRegisterUser"));
+      allRegisterUser = JSON.parse(nodeCache.get("allRegisterUser"));
       Response(res, true, null, 200, allRegisterUser);
       return;
     } else {
+      const getAllRegisterUser = await User.find()
+        .sort({ createdAt: -1 })
+        .limit(6);
+      const totalNotes = await Notes.countDocuments();
+      const totalPassword = await Password.countDocuments();
       allRegisterUser = {
         allUser: getAllRegisterUser,
         totalNotes: totalNotes,
@@ -27,7 +27,7 @@ exports.statistics = async (req, res) => {
       return;
     }
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
     Response(res, false, "Internal server error Try Again", 500);
     return;
   }
