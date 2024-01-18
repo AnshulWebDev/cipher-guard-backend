@@ -40,7 +40,7 @@ exports.adminLogin = async (req, res) => {
       });
       await mailSender(
         users.email,
-        "Login from new device",
+        "Login Alert",
         `
               <!DOCTYPE html>
       <html lang="en">
@@ -48,7 +48,7 @@ exports.adminLogin = async (req, res) => {
       <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login Alert</title>
+        <title>Login from new device</title>
         <style>
           /* Add your styles here */
           body {
@@ -103,10 +103,8 @@ exports.adminLogin = async (req, res) => {
       
           <p>We noticed a login to your account from a new device on ${currentDate}. If this was you, you can ignore this
             message. If you didn't log in, please take immediate action to secure your account.</p>
-      
-          <p>If you have any concerns or need assistance, please contact our support team.</p>
-      
           <p class="alert">New Login Detected</p>
+          <p>If you have any concerns or need assistance, please contact our support team.</p>
       
           <div class="footer">
             <p>Best,<br><a href="https://devglimpse.com" target="_blank">The CipherGuard team</a></p>
