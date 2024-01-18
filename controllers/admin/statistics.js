@@ -12,15 +12,17 @@ exports.statistics = async (req, res) => {
       Response(res, true, null, 200, allRegisterUser);
       return;
     } else {
-      const getAllRegisterUser = await User.find()
-        .sort({ createdAt: -1 })
-        .limit(6);
+      const totalUserCount = await User.countDocuments();
+      const latestUsers = await User.find().sort({ createdAt: -1 }).limit(6);
+      const totalLockedUsers = await User.countDocuments({ accountLock: true });
       const totalNotes = await Notes.countDocuments();
       const totalPassword = await Password.countDocuments();
       allRegisterUser = {
-        allUser: getAllRegisterUser,
+        allUser: latestUsers,
         totalNotes: totalNotes,
         totalPassword: totalPassword,
+        totalUser: totalUserCount,
+        totalLockedUser: totalLockedUsers,
       };
       nodeCache.set("allRegisterUser", JSON.stringify(allRegisterUser));
       Response(res, true, null, 200, allRegisterUser);
