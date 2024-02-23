@@ -8,7 +8,6 @@ const Note = require("./routes/note.js");
 const passwdVault = require("./routes/passwordVault.js");
 const features = require("./routes/features.js");
 const admin = require("./routes/admin.js");
-const nodeCache = require("./utils/nodeCache.js");
 const Response = require("./utils/Response.js");
 const PORT = process.env.PORT || 7000;
 dotenv.config();
@@ -41,4 +40,4 @@ app.use("/api/passwordVault", passwdVault);
 app.use("/api/features", features);
 app.use("/api/admin", admin);
 
-module.exports = { app, nodeCache }; // Export app and nodeCache
+module.exports = app;
