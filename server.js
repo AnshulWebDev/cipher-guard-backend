@@ -32,6 +32,7 @@ app.use(
 //routes Import
 app.get("/", (req, res) => {
   Response(res, true, "Api is Working", 200);
+  
   return;
 });
 app.use("/api/auth", Auth);
