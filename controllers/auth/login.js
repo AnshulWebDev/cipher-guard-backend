@@ -189,7 +189,7 @@ exports.login = async (req, res) => {
     <p><strong>IP Address:</strong> ${responseData.ip_address}<br>
       <strong>Location:</strong> ${responseData.city}, ${responseData.region}, ${responseData.country}</p>
     <p class="alert">Verify Login</p>
-    <p>If this wasn’t you, click here to <strong><a href="https://click.discord.com/ls/click?upn=qDOo8cnwIoKzt0aLL1cBeKCUmBtuxMz0wwVsQaqx6NM4W1Y9MDkL3vaYD9v-2BcFI12uqoNBqY7m1BbXqLknxMah6QOtzCKH0kJmbfq07BRv8S1kKisdvbPsbg7i8BjAd13Aa7Cjx34U422vmpZDxQOa7b90i49ZtbsDrRdrYAm4W-2FS2-2FakYHtTxax1zrG1QcKKq6KHFg6l3zNUjKpjedHURaEn-2Bk6sT9nIZPnOKPBJHQ-3DhwCv_J6aMwo53YhMKN8DfHacR2es9XPsZ-2BPkdZgOjE-2BU10aH5etONNPUZTf-2Fferdlrn6UyIt6rSJcgYmElH9ZKQ9V11oadXvSzFesYAefKdJPxK78m4Uq7PENAMcKPHJY6w-2BaILlpEOBiBr8zt3ZFzWMybLgH6Trtax3YdRVLpYx7rfxI3R7fl-2BiROe8tbzo0cd74DiAEWufEtVMVcQyvHk7i57ysVXSFhC4HKKmndpelQiUFoeAf-2BIEiLVp246Sl2CkZdJBI38YinQvayjqXy6WgWw-3D-3D" style="color:#5865f2">reset your password and log out all devices</a></strong>.</p>
+    <p>If this wasn’t you, please contact our support team. <strong>admin@devglimpse.com</strong>.</p>
     <div class="footer">
       <p>Best,<br><a href="https://devglimpse.com" target="_blank">The CipherGuard team</a></p>
     </div>
