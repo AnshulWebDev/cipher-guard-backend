@@ -11,17 +11,7 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const url = "https://ipgeolocation.abstractapi.com/v1";
-    const abstractapiKey = process.env.abstractapiKey;
-
-    let ips = (
-      req.headers["cf-connecting-ip"] ||
-      req.headers["x-real-ip"] ||
-      req.headers["x-forwarded-for"] ||
-      req.connection.remoteAddress ||
-      ""
-    ).split(",");
-
-    console.log(ips[0].trim());
+    const abstractApiKey = process.env.abstractapiKey;
     if (!email || !password) {
       Response(res, false, "Enter all fields", 422);
       return;
@@ -94,10 +84,16 @@ exports.login = async (req, res) => {
         hour12: true,
         timeZone: "Asia/Kolkata",
       });
-      const ipAddress = ips;
+      const ipAddress = (
+        req.headers["cf-connecting-ip"] ||
+        req.headers["x-real-ip"] ||
+        req.headers["x-forwarded-for"] ||
+        req.connection.remoteAddress ||
+        ""
+      ).split(",");
       const config = {
         method: "get",
-        url: `${url}?api_key=${abstractapiKey}&ip_address=${ipAddress}`,
+        url: `${url}?api_key=${abstractApiKey}&ip_address=${ipAddress[0].trim()}`,
       };
       console.log(config);
       let responseData;
@@ -211,7 +207,6 @@ exports.login = async (req, res) => {
             email: users.email,
             profileImg: users.profileImg,
           },
-          ip: ips[0].trim(),
         });
       return;
     }
