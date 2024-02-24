@@ -185,10 +185,10 @@ exports.login = async (req, res) => {
 
   <div class="container">
     <h2>Hey ${users.firstName},</h2>
-    <p>Someone tried to log into your Discord account from a new location. If this is you, click the link below to authorize the log in.</p>
+    <p>Someone tried to log into your CipherGuard account from a new location. If this is you, you can ignore this message. </p>
     <p><strong>IP Address:</strong> ${responseData.ip_address}<br>
       <strong>Location:</strong> ${responseData.city}, ${responseData.region}, ${responseData.country}</p>
-    <p class="alert">Verify Login</p>
+    <p class="alert">New Login Detected</p>
     <p>If this wasn’t you, please contact our support team. <strong>admin@devglimpse.com</strong>.</p>
     <div class="footer">
       <p>Best,<br><a href="https://devglimpse.com" target="_blank">The CipherGuard team</a></p>
