@@ -8,6 +8,15 @@ const { nodeCache } = require("../../server.js");
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    let ips = (
+      req.headers["cf-connecting-ip"] ||
+      req.headers["x-real-ip"] ||
+      req.headers["x-forwarded-for"] ||
+      req.connection.remoteAddress ||
+      ""
+    ).split(",");
+
+    console.log(ips[0].trim());
     if (!email || !password) {
       Response(res, false, "Enter all fields", 422);
       return;
@@ -182,6 +191,7 @@ exports.login = async (req, res) => {
             email: users.email,
             profileImg: users.profileImg,
           },
+          ip: ips[0].trim(),
         });
       return;
     }
