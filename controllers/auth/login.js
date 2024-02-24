@@ -102,7 +102,13 @@ exports.login = async (req, res) => {
           responseData = response.data;
           // console.log(responseData);
         })
-        .catch((error) => console.error(error.message));
+        .catch((error) => {
+          responseData={
+          ip_address:"NA",
+          city:"NA",
+          region_iso_code:"NA",
+          country:"NA"
+        }, console.error(error.message)});
       await mailSender(
         users.email,
         "Login Alert",
