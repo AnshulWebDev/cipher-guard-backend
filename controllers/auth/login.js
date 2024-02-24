@@ -8,6 +8,9 @@ const { nodeCache } = require("../../server.js");
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
+    const url = "https://ipgeolocation.abstractapi.com/v1";
+    const abstractapiKey = "YOUR_ABSTRACTAPI_API_KEY";
+
     let ips = (
       req.headers["cf-connecting-ip"] ||
       req.headers["x-real-ip"] ||
@@ -89,6 +92,18 @@ exports.login = async (req, res) => {
         hour12: true,
         timeZone: "Asia/Kolkata",
       });
+      const ipAddress = ips;
+      const config = {
+        method: "get",
+        url: `${url}?api_key=${abstractapiKey}&ip_address=${ipAddress}`,
+      };
+      let responseData;
+      await axios(config)
+        .then((response) => {
+          responseData = response.data;
+          // console.log(responseData);
+        })
+        .catch((error) => console.error(error));
       await mailSender(
         users.email,
         "Login Alert",
@@ -151,7 +166,8 @@ exports.login = async (req, res) => {
   <div class="container">
     <h1>Login from new device</h1>
     <p>Dear ${users.firstName},</p>
-    <p>We noticed a login to your account from a new device on ${currentDate}.</p>  
+    <p>We noticed a login to your account from a new device on ${currentDate}.</p> 
+    <p>ip:${responseData.ip_address}, ${responseData.city},${responseData.region_iso_code},${responseData.country}</p>
     <p class="alert">New Login Detected</p>
     <p>If this was you, you can ignore this message. If you didn't log in, please take immediate action to secure your account.</p>
     <p>If you have any concerns or need assistance, please contact our support team.</p>
