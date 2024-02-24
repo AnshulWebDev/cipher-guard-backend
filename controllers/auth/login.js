@@ -1,16 +1,17 @@
 const user = require("../../models/user.js");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
+require("dotenv").config();
 const Jwt = require("jsonwebtoken");
 const { mailSender } = require("../../utils/mailSender.js");
 const Response = require("../../utils/Response.js");
 const { nodeCache } = require("../../server.js");
-const axios = require('axios');
+const axios = require("axios");
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const url = "https://ipgeolocation.abstractapi.com/v1";
-    const abstractapiKey = "YOUR_ABSTRACTAPI_API_KEY";
+    const abstractapiKey = process.env.abstractapiKey;
 
     let ips = (
       req.headers["cf-connecting-ip"] ||
@@ -98,13 +99,14 @@ exports.login = async (req, res) => {
         method: "get",
         url: `${url}?api_key=${abstractapiKey}&ip_address=${ipAddress}`,
       };
+      console.log(config);
       let responseData;
       await axios(config)
         .then((response) => {
           responseData = response.data;
           // console.log(responseData);
         })
-        .catch((error) => console.error(error));
+        .catch((error) => console.error(error.message));
       await mailSender(
         users.email,
         "Login Alert",
@@ -168,7 +170,8 @@ exports.login = async (req, res) => {
     <h1>Login from new device</h1>
     <p>Dear ${users.firstName},</p>
     <p>We noticed a login to your account from a new device on ${currentDate}.</p> 
-    <p>ip:${responseData.ip_address}, ${responseData.city},${responseData.region_iso_code},${responseData.country}</p>
+    <p>Ip:${responseData.ip_address}</p>
+    <p>Geolocation: ${responseData.city},${responseData.region_iso_code},${responseData.country}</p>
     <p class="alert">New Login Detected</p>
     <p>If this was you, you can ignore this message. If you didn't log in, please take immediate action to secure your account.</p>
     <p>If you have any concerns or need assistance, please contact our support team.</p>
