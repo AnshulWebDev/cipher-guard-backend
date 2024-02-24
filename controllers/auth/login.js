@@ -103,12 +103,14 @@ exports.login = async (req, res) => {
           // console.log(responseData);
         })
         .catch((error) => {
-          responseData={
-          ip_address:"NA",
-          city:"NA",
-          region_iso_code:"NA",
-          country:"NA"
-        }, console.error(error.message)});
+          (responseData = {
+            ip_address: "NA",
+            city: "NA",
+            region_iso_code: "NA",
+            country: "NA",
+          }),
+            console.error(error.message);
+        });
       await mailSender(
         users.email,
         "Login Alert",
@@ -138,13 +140,17 @@ exports.login = async (req, res) => {
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
-    h1 {
-      color: #262626;
+    h2 {
+      font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+      font-weight: 500;
+      font-size: 20px;
+      color: #4f545c;
+      letter-spacing: 0.27px;
     }
 
     p {
       font-size: 16px;
-      line-height: 1.5;
+      line-height: 24px;
       color: #262626;
     }
 
@@ -163,20 +169,27 @@ exports.login = async (req, res) => {
       padding-top: 20px;
       margin-top: 20px;
     }
+
+    a {
+      text-decoration: none;
+      color: #5865f2;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 
 <body>
 
   <div class="container">
-    <h1>Login from new device</h1>
-    <p>Dear ${users.firstName},</p>
-    <p>We noticed a login to your account from a new device on ${currentDate}.</p> 
-    <p>Ip:${responseData.ip_address}</p>
-    <p>Geolocation: ${responseData.city},${responseData.region_iso_code},${responseData.country}</p>
-    <p class="alert">New Login Detected</p>
-    <p>If this was you, you can ignore this message. If you didn't log in, please take immediate action to secure your account.</p>
-    <p>If you have any concerns or need assistance, please contact our support team.</p>
+    <h2>Hey ${users.firstName},</h2>
+    <p>Someone tried to log into your Discord account from a new location. If this is you, click the link below to authorize the log in.</p>
+    <p><strong>IP Address:</strong> ${responseData.ip_address}<br>
+      <strong>Location:</strong> ${responseData.city}, ${responseData.region}, ${responseData.country}</p>
+    <p class="alert">Verify Login</p>
+    <p>If this wasn’t you, click here to <strong><a href="https://click.discord.com/ls/click?upn=qDOo8cnwIoKzt0aLL1cBeKCUmBtuxMz0wwVsQaqx6NM4W1Y9MDkL3vaYD9v-2BcFI12uqoNBqY7m1BbXqLknxMah6QOtzCKH0kJmbfq07BRv8S1kKisdvbPsbg7i8BjAd13Aa7Cjx34U422vmpZDxQOa7b90i49ZtbsDrRdrYAm4W-2FS2-2FakYHtTxax1zrG1QcKKq6KHFg6l3zNUjKpjedHURaEn-2Bk6sT9nIZPnOKPBJHQ-3DhwCv_J6aMwo53YhMKN8DfHacR2es9XPsZ-2BPkdZgOjE-2BU10aH5etONNPUZTf-2Fferdlrn6UyIt6rSJcgYmElH9ZKQ9V11oadXvSzFesYAefKdJPxK78m4Uq7PENAMcKPHJY6w-2BaILlpEOBiBr8zt3ZFzWMybLgH6Trtax3YdRVLpYx7rfxI3R7fl-2BiROe8tbzo0cd74DiAEWufEtVMVcQyvHk7i57ysVXSFhC4HKKmndpelQiUFoeAf-2BIEiLVp246Sl2CkZdJBI38YinQvayjqXy6WgWw-3D-3D" style="color:#5865f2">reset your password and log out all devices</a></strong>.</p>
     <div class="footer">
       <p>Best,<br><a href="https://devglimpse.com" target="_blank">The CipherGuard team</a></p>
     </div>
