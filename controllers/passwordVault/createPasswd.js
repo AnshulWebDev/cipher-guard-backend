@@ -3,6 +3,7 @@ const passwordvault = require("../../models/passwordVault.js");
 const CryptoJS = require("crypto-js");
 const Response = require("../../utils/Response.js");
 const nodeCache = require("../../utils/nodeCache.js");
+const favicon = require("favicon-getter").default;
 exports.createPasswd = async (req, res) => {
   try {
     const { name, username, password, website } = req.body;
@@ -14,6 +15,14 @@ exports.createPasswd = async (req, res) => {
       Response(res, false, "Enter all fields", 402);
       return;
     }
+    const faviconFinder = async () => {
+      const faviconUrl = await favicon(website);
+      if (!faviconUrl) {
+        return "https://raw.githubusercontent.com/anshuldevsec/cipher-guard/main/src/assets/defaultFavicon.png";
+      } else {
+        return faviconUrl;
+      }
+    };
     const currentDate = new Date().toLocaleString("en-US", {
       year: "numeric",
       month: "2-digit",
@@ -28,11 +37,13 @@ exports.createPasswd = async (req, res) => {
       password,
       vaultPin
     ).toString();
+
     const newPassword = await passwordvault.create({
       name,
       username,
       password: encryptPasswd,
       website,
+      websiteFavicon: await faviconFinder(),
       Created: currentDate,
       email: userEmail,
     });

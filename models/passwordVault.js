@@ -22,6 +22,10 @@ const passwordVault = new mongoose.Schema({
     type: String,
     trim: true,
   },
+  websiteFavicon: {
+    type: String,
+    trim: true,
+  },
   Updated: {
     type: String,
     trim: true,
