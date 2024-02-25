@@ -74,16 +74,6 @@ exports.login = async (req, res) => {
       users.wrongPasswdAttempt.attempts *= 0;
       users.wrongPasswdAttempt.lastAttemptTime = undefined;
       await users.save();
-      const currentDate = new Date().toLocaleString("en-US", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: true,
-        timeZone: "Asia/Kolkata",
-      });
       const ipAddress = (
         req.headers["cf-connecting-ip"] ||
         req.headers["x-real-ip"] ||
@@ -106,7 +96,7 @@ exports.login = async (req, res) => {
           (responseData = {
             ip_address: "NA",
             city: "NA",
-            region_iso_code: "NA",
+            region: "NA",
             country: "NA",
           }),
             console.error(error.message);
@@ -187,7 +177,7 @@ exports.login = async (req, res) => {
     <h2>Hey ${users.firstName},</h2>
     <p>Someone tried to log into your CipherGuard account from a new location. If this is you, you can ignore this message. </p>
     <p><strong>IP Address:</strong> ${responseData.ip_address}<br>
-      <strong>Location:</strong> ${responseData.city}, ${responseData.region}, ${responseData.country}</p>
+    <strong>Location:</strong> ${responseData.city}, ${responseData.region}, ${responseData.country}</p>
     <p class="alert">New Login Detected</p>
     <p>If this wasn’t you, please contact our support team. <strong>admin@devglimpse.com</strong>.</p>
     <div class="footer">
