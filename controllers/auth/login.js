@@ -5,7 +5,7 @@ require("dotenv").config();
 const Jwt = require("jsonwebtoken");
 const { mailSender } = require("../../utils/mailSender.js");
 const Response = require("../../utils/Response.js");
-const nodeCache = require("../../utils/nodeCache.js");
+const nodeCache  = require("../../utils/nodeCache.js");
 const axios = require("axios");
 exports.login = async (req, res) => {
   try {
@@ -85,7 +85,7 @@ exports.login = async (req, res) => {
         method: "get",
         url: `${url}?api_key=${abstractApiKey}&ip_address=${ipAddress[0].trim()}`,
       };
-      console.log(config);
+      
       let responseData;
       await axios(config)
         .then((response) => {
@@ -100,6 +100,16 @@ exports.login = async (req, res) => {
             country: "NA",
           }),
             console.error(error.message);
+        });
+        const currentDate = new Date().toLocaleString("en-US", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: true,
+          timeZone: "Asia/Kolkata",
         });
       await mailSender(
         users.email,
@@ -176,6 +186,7 @@ exports.login = async (req, res) => {
   <div class="container">
     <h2>Hey ${users.firstName},</h2>
     <p>Someone tried to log into your CipherGuard account from a new location. If this is you, you can ignore this message. </p>
+    <p><strong>Date:</strong> ${currentDate}<br>
     <p><strong>IP Address:</strong> ${responseData.ip_address}<br>
     <strong>Location:</strong> ${responseData.city}, ${responseData.region}, ${responseData.country}</p>
     <p class="alert">New Login Detected</p>
