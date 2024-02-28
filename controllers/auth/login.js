@@ -5,7 +5,7 @@ require("dotenv").config();
 const Jwt = require("jsonwebtoken");
 const { mailSender } = require("../../utils/mailSender.js");
 const Response = require("../../utils/Response.js");
-const { nodeCache } = require("../../server.js");
+const nodeCache = require("../../utils/nodeCache.js");
 const axios = require("axios");
 exports.login = async (req, res) => {
   try {

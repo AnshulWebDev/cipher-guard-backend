@@ -9,10 +9,10 @@ exports.vaultAuth = async (req, res) => {
     const verifyUser = req.user;
     const user = await User.findById(verifyUser.id);
     if (!vaultPin || vaultPin.toString().length !== 6) {
-      Response(res, false, "Enter a 6-digit number vault pin", 422);
+      Response(res, false, "Enter 6-digit vault pin", 422);
       return;
     } else if (!user.vaultPin) {
-      Response(res, false, "create 6 digit vault pin", 422);
+      Response(res, false, "create 6-digit vault pin", 422);
       return;
     } else if (!(await bcrypt.compare(vaultPin, user.vaultPin))) {
       Response(res, false, "Vault pin is incorrect", 402);

@@ -16,11 +16,11 @@ exports.createPasswd = async (req, res) => {
       return;
     }
     const faviconFinder = async () => {
-      const faviconUrl = await favicon(website);
-      if (!faviconUrl) {
-        return "https://raw.githubusercontent.com/anshuldevsec/cipher-guard/main/src/assets/defaultFavicon.png";
-      } else {
+      try {
+        const faviconUrl = await favicon(website);
         return faviconUrl;
+      } catch (error) {
+        return "https://raw.githubusercontent.com/anshuldevsec/cipher-guard/main/src/assets/defaultFavicon.png";
       }
     };
     const currentDate = new Date().toLocaleString("en-US", {
@@ -58,7 +58,7 @@ exports.createPasswd = async (req, res) => {
     Response(res, false, "credential saved", 200);
     return;
   } catch (error) {
-    console.log(error.message);
+    console.log("here is the error", error.message);
     Response(res, false, "Internal server error Try Again", 500);
     return;
   }
