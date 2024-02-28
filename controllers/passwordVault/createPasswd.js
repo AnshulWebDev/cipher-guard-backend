@@ -55,7 +55,7 @@ exports.createPasswd = async (req, res) => {
       { new: true }
     );
     nodeCache.del("getSavedPasswd");
-    Response(res, false, "credential saved", 200);
+    Response(res, true, "credential saved", 200);
     return;
   } catch (error) {
     console.log("here is the error", error.message);

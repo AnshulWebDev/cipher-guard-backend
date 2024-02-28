@@ -16,7 +16,6 @@ const passwordVault = new mongoose.Schema({
   password: {
     type: String,
     trim: true,
-    select: false,
   },
   website: {
     type: String,
