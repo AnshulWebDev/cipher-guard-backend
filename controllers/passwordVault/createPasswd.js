@@ -6,15 +6,30 @@ const nodeCache = require("../../utils/nodeCache.js");
 const favicon = require("favicon-getter").default;
 exports.createPasswd = async (req, res) => {
   try {
-    const { name, username, password, website } = req.body;
+    const { username, password, website } = req.body;
     const vaultPin = req.vaultPin;
     const verifyToken = req.user;
     const userEmail = req.user.email;
     const user = await User.findById(verifyToken.id);
-    if (!name || !username || !password || !website) {
+    if (!username || !password || !website) {
       Response(res, false, "Enter all fields", 402);
       return;
     }
+
+    function extractDomain(inputUrl) {
+      try {
+        // Create a URL object with the provided input
+        const url = new URL(inputUrl);
+
+        // Extract and return the hostname (domain)
+        return url.hostname;
+      } catch (error) {
+        // Handle invalid URLs or other errors
+        // console.error("Invalid URL:", error.message);
+        return "Not define";
+      }
+    }
+    const domain = extractDomain(website);
     const faviconFinder = async () => {
       try {
         const faviconUrl = await favicon(website);
@@ -39,7 +54,7 @@ exports.createPasswd = async (req, res) => {
     ).toString();
 
     const newPassword = await passwordvault.create({
-      name,
+      name: domain,
       username,
       password: encryptPasswd,
       website,
