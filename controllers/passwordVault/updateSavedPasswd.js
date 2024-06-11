@@ -1,6 +1,7 @@
 const passwordvault = require("../../models/passwordVault.js");
 const nodeCache = require("../../utils/nodeCache.js");
 const Response = require("../../utils/Response.js");
+const CryptoJS = require("crypto-js");
 
 exports.updateSavedPasswd = async (req, res) => {
   try {
@@ -17,38 +18,50 @@ exports.updateSavedPasswd = async (req, res) => {
       hour12: true,
       timeZone: "Asia/Kolkata",
     });
-    const updatePassword = {
+
+    const updateData = {
       Updated: currentDate,
     };
+
     if (name) {
-      updatePassword.name = name;
-    } else if (username) {
-      updatePassword.username = username;
-    } else if (password) {
-      updatePassword.password = await CryptoJS.AES.encrypt(
+      updateData.name = name;
+    }
+    if (username) {
+      updateData.username = username;
+    }
+    if (password) {
+      updateData.password = await CryptoJS.AES.encrypt(
         password,
         vaultPin
       ).toString();
-      updatePassword.passwordUpdated = currentDate;
-    } else if (website) {
-      updatePassword.website = website;
+      updateData.passwordUpdated = currentDate;
     }
+    if (website) {
+      updateData.website = website;
+    }
+
     try {
-      const updatePassword = await passwordvault.findByIdAndUpdate(
+      const updatedPassword = await passwordvault.findByIdAndUpdate(
         id,
-        updatePassword,
+        updateData,
         { new: true }
       );
-      updatePassword.passwordHistory += 1;
-      await updatePassword.save();
+      if (!updatedPassword) {
+        Response(res, true, "Password not found", 404);
+        return;
+      }
+      updatedPassword.passwordHistory += 1;
+      await updatedPassword.save();
       nodeCache.del("getSavedPasswd");
       Response(res, true, "Password Updated", 200);
       return;
     } catch (error) {
+      console.log(error.message);
       Response(res, true, "Unable to update password", 404);
       return;
     }
   } catch (error) {
+    console.log(error.message);
     Response(res, false, "Internal server error Try Again", 500);
     return;
   }
