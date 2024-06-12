@@ -6,8 +6,8 @@ const CryptoJS = require("crypto-js");
 exports.auth = async (req, res, next) => {
   try {
     //extract token
-    const token0 =
-      req.cookies.token
+    const token0 = req.cookies.token || req.header("Authorization").replace("Bearer ", "");
+    // console.log(token0)
     if (!token0) {
       Response(res, false, "Token Is missing", 401);
       return;
@@ -18,7 +18,7 @@ exports.auth = async (req, res, next) => {
       const decode = jwt.verify(token0, process.env.JWT_SECRET);
       req.user = decode;
     } catch (error) {
-      console.log(error)
+      console.log(error);
       if (error.message == "jwt expired") {
         Response(res, false, "session expired, Login again", 404);
         return;
