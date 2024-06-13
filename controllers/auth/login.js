@@ -190,9 +190,9 @@ exports.login = async (req, res) => {
     <p><strong>IP Address:</strong> ${responseData.ip_address}<br>
     <strong>Location:</strong> ${responseData.city}, ${responseData.region}, ${responseData.country}</p>
     <p class="alert">New Login Detected</p>
-    <p>If this wasn’t you, please contact our support team. <strong>admin@devglimpse.com</strong>.</p>
+    <p>If this wasn’t you, please contact our support team. <strong>support@cleverpentester.com</strong>.</p>
     <div class="footer">
-      <p>Best,<br><a href="https://devglimpse.com" target="_blank">The CipherGuard team</a></p>
+      <p>Best,<br><a href="https://cleverpentester.com" target="_blank">The CipherGuard team</a></p>
     </div>
   </div>
 

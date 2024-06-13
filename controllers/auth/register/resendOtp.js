@@ -97,7 +97,7 @@ exports.resendOtp = async (req, res) => {
     <p>This OTP is valid for 15 minutes. Do not share it with anyone for security reasons.</p>
     <p>If you did not sign up for CipherGuard, please ignore this email.</p>
     <div class="footer">
-      <p>Best,<br><a href="https://devglimpse.com" target="_blank">The CipherGuard team</a></p>
+      <p>Best,<br><a href="https://cleverpentester.com" target="_blank">The CipherGuard team</a></p>
     </div>
   </div>
 

@@ -137,7 +137,7 @@ exports.verifyOtp = async (req, res) => {
               </ul>
           
               <div class="footer">
-                <p>Best,<br><a href="https://devglimpse.com" target="_blank">The CipherGuard team</a></p>
+                <p>Best,<br><a href="https://cleverpentester.com" target="_blank">The CipherGuard team</a></p>
               </div>
             </div>
           
