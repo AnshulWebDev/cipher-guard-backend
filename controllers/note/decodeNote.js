@@ -2,7 +2,7 @@ const User = require("../../models/user.js");
 const CryptoJS = require("crypto-js");
 const Response = require("../../utils/Response.js");
 
-exports.getNote = async (req, res) => {
+exports.decodeNote = async (req, res) => {
   try {
     const vaultPin = req.vaultPin;
     const verifyToken = req.user;

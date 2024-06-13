@@ -4,7 +4,7 @@ const { deleteNote } = require("../controllers/note/deleteNote.js");
 const { favoriteNote } = require("../controllers/note/favoriteNote.js");
 const { getAllNote } = require("../controllers/note/getAllNote.js");
 const { getFavoriteNote } = require("../controllers/note/getFavoriteNote.js");
-const { getNote } = require("../controllers/note/getNote.js");
+const { decodeNote } = require("../controllers/note/decodeNote.js");
 const { searchNote } = require("../controllers/note/searchNote.js");
 const { updateNote } = require("../controllers/note/updateNote.js");
 const { auth, isAuthUser, verifyAuthPin } = require("../middleware/auth.js");
@@ -21,7 +21,7 @@ router.post(
   verifyAuthPin,
   getFavoriteNote
 );
-router.post("/getNote/:id", auth, isAuthUser, verifyAuthPin, getNote);
+router.post("/decodeNote/:id", auth, isAuthUser, verifyAuthPin, decodeNote);
 router.post("/searchNote", auth, isAuthUser, verifyAuthPin, searchNote);
 router.put("/updateNote/:id", auth, isAuthUser, verifyAuthPin, updateNote);
 
