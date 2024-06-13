@@ -11,18 +11,18 @@ const { auth, isAuthUser, verifyAuthPin } = require("../middleware/auth.js");
 const router = express.Router();
 
 router.post("/createNote", auth, isAuthUser, verifyAuthPin, createNote);
-router.delete("/deleteNote/:id", auth, isAuthUser, verifyAuthPin, deleteNote);
+router.post("/deleteNote/:id", auth, isAuthUser, verifyAuthPin, deleteNote);
 router.put("/favoriteNote/:id", auth, isAuthUser, verifyAuthPin, favoriteNote);
-router.get("/getAllNote", auth, isAuthUser, verifyAuthPin, getAllNote);
-router.get(
+router.post("/getAllNote", auth, isAuthUser, verifyAuthPin, getAllNote);
+router.post(
   "/getFavoriteNote",
   auth,
   isAuthUser,
   verifyAuthPin,
   getFavoriteNote
 );
-router.get("/getNote/:id", auth, isAuthUser, verifyAuthPin, getNote);
-router.get("/searchNote", auth, isAuthUser, verifyAuthPin, searchNote);
+router.post("/getNote/:id", auth, isAuthUser, verifyAuthPin, getNote);
+router.post("/searchNote", auth, isAuthUser, verifyAuthPin, searchNote);
 router.put("/updateNote/:id", auth, isAuthUser, verifyAuthPin, updateNote);
 
 module.exports = router;
