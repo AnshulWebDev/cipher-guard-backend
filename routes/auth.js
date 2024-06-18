@@ -15,7 +15,7 @@ router.post("/register/verifyOtp", verifyOtp);
 router.post("/register/resendOtp", resendOtp);
 router.post("/login", login);
 router.post("/logout", logout);
-router.post("/createVaultPin", auth,isAuthUser, vaultAuth, createVaultPin);
+router.post("/createVaultPin", auth, createVaultPin);
 router.post("/vaultAuth", auth, isAuthUser, vaultAuth);
 router.post("/profile", auth, isAuthUser, profile);
 module.exports = router;
