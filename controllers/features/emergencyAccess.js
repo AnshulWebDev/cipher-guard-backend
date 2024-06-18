@@ -28,7 +28,7 @@ exports.addEmergencyAccess = async (req, res) => {
     try {
       await User.findByIdAndUpdate(
         verifyToken.id,
-        { emergencyAccess: email, emergencyAccessPasswd: hashPassword },
+        { emergencyMail: email, emergencyAccessPasswd: hashPassword },
         { new: true }
       );
       Response(res, true, "Emergency Access added successfully", 200);
